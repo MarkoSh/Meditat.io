@@ -547,6 +547,9 @@ const SAFETY = [
     d: tri('ПТСР и тяжёлая травма, психоз или биполярное расстройство в прошлом, тяжёлая депрессия прямо сейчас: долгие и интенсивные практики, особенно ретриты, — только вместе со специалистом. Короткие практики с открытыми глазами обычно безопаснее.', 'PTSD or severe trauma, a past psychosis or bipolar disorder, severe depression right now: long, intensive practice, especially retreats, only with a professional. Short practices with eyes open are usually safer.', 'ผู้มีภาวะ PTSD หรือบาดแผลทางใจรุนแรง เคยมีภาวะโรคจิตหรือไบโพลาร์ หรือกำลังซึมเศร้าหนัก การฝึกยาวและเข้มข้น โดยเฉพาะการเข้าคอร์สปฏิบัติธรรม ควรมีผู้เชี่ยวชาญดูแล การฝึกสั้น ๆ แบบลืมตามักปลอดภัยกว่า') },
   { tag: 'myth', icon: 'hourglass', t: tri('«Чем дольше, тем лучше»', '“Longer is always better”', 'ยิ่งนานยิ่งดี'),
     d: tri('Для начала важнее регулярность: в исследованиях эффект давали 10–20 минут в день, а не марафоны. Резко увеличивать время — частая причина бросить.', 'At the start, regularity matters more: studies saw effects from 10–20 minutes a day, not marathons. Jumping to long sessions is a common reason to quit.', 'ช่วงแรกความสม่ำเสมอสำคัญกว่า งานวิจัยเห็นผลจากวันละ 10–20 นาที ไม่ใช่มาราธอน การเพิ่มเวลาเร็วเกินไปเป็นเหตุผลที่คนเลิกบ่อย') },
+  { tag: 'myth', icon: 'audio-lines', t: tri('«432 Гц лечат»', '“432 Hz heals”', '432 เฮิรตซ์รักษาโรค'),
+    d: tri('Наш колокол звучит на 432 Гц — просто потому, что это красиво. Но особой целебной силы у этой частоты нет: единственное двойное слепое исследование — пилотное, на 33 людях, с небольшой разницей в пульсе. Мифы про «частоту Вселенной» и Верди ничем не подкреплены.', 'Our bell rings at 432 Hz simply because it sounds nice. But the frequency has no special healing power: the only double-blind study is a 33-person pilot with a small difference in heart rate. The “frequency of the universe” and Verdi stories have no backing.', 'ระฆังของเราตั้งไว้ที่ 432 เฮิรตซ์ เพราะฟังแล้วไพเราะเท่านั้น ความถี่นี้ไม่มีพลังรักษาพิเศษ งานวิจัยแบบปกปิดสองทางมีเพียงงานนำร่องกับคน 33 คน ที่พบความต่างของชีพจรเล็กน้อย เรื่องความถี่แห่งจักรวาลไม่มีหลักฐานรองรับ'),
+    src: ['Calamassi & Pomponi, EXPLORE, 2019', 'https://doi.org/10.1016/j.explore.2019.04.001'] },
   { tag: 'debate', icon: 'smartphone', t: tri('Приложения работают?', 'Do apps work?', 'แอปได้ผลไหม'),
     d: tri('Небольшие исследования приложений показывают умеренное снижение стресса за несколько недель — но многие люди бросают через пару недель. Лучшее приложение то, которым вы пользуетесь.', 'Small studies of apps show a moderate drop in stress over a few weeks, but many people stop within a couple of weeks. The best app is the one you actually use.', 'งานวิจัยเล็ก ๆ เกี่ยวกับแอปพบความเครียดลดลงปานกลางในไม่กี่สัปดาห์ แต่หลายคนเลิกใช้ภายในสองสามสัปดาห์ แอปที่ดีที่สุดคือแอปที่คุณใช้จริง') },
 ];
@@ -582,16 +585,16 @@ function streaks() {
 const nameOf = k => k === 'timer' ? t('tmName') : L((PR[k] || BR[k]).t);
 
 /* ================= BELL ================= */
-// a singing-bowl strike made of a few inharmonic partials (WebAudio, no files)
+// a singing-bowl strike at 432 Hz with a few inharmonic overtones (WebAudio, no files)
 const ac = () => bell.ac || (bell.ac = new (window.AudioContext || window.webkitAudioContext)());
 function bell(times = 1, vol = .22) {
   try {
     const a = ac(); a.resume();
     for (let i = 0; i < times; i++) {
       const t0 = a.currentTime + i * 2.6;
-      [[1, 1], [2.76, .45], [5.4, .2], [8.93, .08]].forEach(([r, v]) => {
+      [[1, 1], [2.71, .35], [5.15, .12]].forEach(([r, v]) => {
         const o = a.createOscillator(), g = a.createGain();
-        o.frequency.value = 196 * r; g.gain.setValueAtTime(.0001, t0); g.gain.exponentialRampToValueAtTime(vol * v, t0 + .015); g.gain.exponentialRampToValueAtTime(.0001, t0 + 7 / Math.sqrt(r));
+        o.frequency.value = 432 * r; g.gain.setValueAtTime(.0001, t0); g.gain.exponentialRampToValueAtTime(vol * v, t0 + .015); g.gain.exponentialRampToValueAtTime(.0001, t0 + 7 / Math.sqrt(r));
         o.connect(g).connect(a.destination); o.start(t0); o.stop(t0 + 8);
       });
     }
