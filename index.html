@@ -1,0 +1,861 @@
+<!doctype html>
+<html lang="ru" class="scroll-smooth">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meditat.io — медитации, дыхание и что о них знает наука</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#09090b">
+<meta name="description" content="Короткие медитации с голосом, дыхательные ритмы и таймер с колоколом. Что о медитации известно науке, откуда пришли практики и когда стоит быть осторожнее.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@600&family=Noto+Sans+Cuneiform&text=%E0%B8%81%F0%92%80%AD&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: { extend: {
+    fontFamily: { sans: ['Inter', 'Noto Sans Thai', 'system-ui', 'sans-serif'] },
+    colors: { ink: { 950: '#09090b', 900: '#101114', 800: '#17191d', 700: '#23262c', 600: '#33373f' }, accent: '#8fd3bf' }
+  } }
+}
+</script>
+<script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+<style>
+  body { background: #09090b; }
+  /* narrow phones (Galaxy Fold cover ~280px): grids may shrink, long unbroken strings wrap only if they would overflow */
+  .grid > * { min-width: 0; } .font-mono, p, li, h3 { overflow-wrap: anywhere; }
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s, transform .7s cubic-bezier(.2,.8,.2,1); }
+  .reveal.in { opacity: 1; transform: none; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px) } to { opacity: 1; transform: none } }
+  .fade-up { animation: fadeUp .6s ease-out both; }
+  @keyframes drift { 50% { transform: scale(.86) } }
+  .drift { animation: drift 10s ease-in-out infinite; }
+  #navMenu:not(.hidden) { animation: navIn .2s ease-out; } @keyframes navIn { from { opacity: 0; transform: translateY(-6px) } }
+</style>
+</head>
+<body class="bg-ink-950 text-zinc-300 font-sans antialiased selection:bg-accent/30">
+
+<header class="fixed top-0 inset-x-0 z-40 border-b border-white/5 bg-ink-950/75 backdrop-blur-xl">
+  <nav class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
+    <a href="#top" class="flex items-center gap-2 font-bold tracking-tight text-white">
+      <span class="grid place-items-center w-8 h-8 rounded-lg bg-accent text-ink-950"><i data-lucide="flower-2" class="w-4 h-4"></i></span>
+      <span class="hidden min-[360px]:inline">Meditat<span class="text-accent">.io</span></span>
+    </a>
+    <div class="hidden lg:flex items-center gap-5 text-sm text-zinc-400">
+      <a href="#practices" class="hover:text-white transition" data-i18n="navPractices"></a>
+      <a href="#breath" class="hover:text-white transition" data-i18n="navBreath"></a>
+      <a href="#timer" class="hover:text-white transition" data-i18n="navTimer"></a>
+      <a href="#science" class="hover:text-white transition" data-i18n="navScience"></a>
+      <a href="#traditions" class="hover:text-white transition" data-i18n="navTraditions"></a>
+      <a href="#safety" class="hover:text-white transition" data-i18n="navSafety"></a>
+      <a href="#stats" class="hover:text-white transition" data-i18n="navStats"></a>
+    </div>
+    <div class="flex items-center gap-2">
+      <div class="flex rounded-lg border border-white/10 p-0.5 text-xs font-semibold" role="group" aria-label="Language">
+        <button data-lang="ru" class="px-2.5 py-1.5 rounded-md transition">RU</button>
+        <button data-lang="en" class="px-2.5 py-1.5 rounded-md transition">EN</button>
+        <button data-lang="th" class="px-2.5 py-1.5 rounded-md transition">TH</button>
+      </div>
+      <button id="navBtn" class="lg:hidden grid place-items-center w-9 h-9 rounded-lg border border-white/10 text-zinc-300 hover:text-white transition" aria-label="Menu" aria-expanded="false" aria-controls="navMenu">
+        <i data-lucide="menu" class="w-5 h-5 nav-closed"></i><i data-lucide="x" class="w-5 h-5 nav-opened hidden"></i>
+      </button>
+    </div>
+  </nav>
+  <div id="navMenu" class="lg:hidden hidden border-t border-white/5">
+    <div class="max-w-6xl mx-auto px-4 py-3 grid grid-cols-2 gap-1 text-sm"></div>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
+    <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,rgba(143,211,191,.12),transparent_60%)]"></div>
+    <div class="max-w-6xl mx-auto px-4 grid lg:grid-cols-2 gap-12 items-center">
+      <div class="reveal">
+        <p class="inline-flex items-center gap-2 rounded-full border border-white/10 px-3 py-1 text-xs text-zinc-400"><i data-lucide="leaf" class="w-3.5 h-3.5 text-accent"></i><span data-i18n="heroBadge"></span></p>
+        <h1 class="mt-6 text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.05]" data-i18n-html="heroTitle"></h1>
+        <p class="mt-6 text-lg text-zinc-400 max-w-xl" data-i18n="heroSub"></p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="#practices" class="inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-3 font-semibold text-ink-950 hover:brightness-110 transition"><span data-i18n="heroCta"></span><i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+          <a href="#science" class="inline-flex items-center gap-2 rounded-xl border border-white/10 px-5 py-3 font-semibold text-white hover:bg-white/5 transition"><i data-lucide="microscope" class="w-4 h-4 text-accent"></i><span data-i18n="heroCta2"></span></a>
+        </div>
+        <dl class="mt-10 grid grid-cols-3 gap-6 max-w-md">
+          <div><dt class="text-2xl font-bold text-white" id="hPractices"></dt><dd class="text-sm text-zinc-500" data-i18n="hPractices"></dd></div>
+          <div><dt class="text-2xl font-bold text-white" id="hMinutes"></dt><dd class="text-sm text-zinc-500" data-i18n="hMinutes"></dd></div>
+          <div><dt class="text-2xl font-bold text-white" id="hStreak"></dt><dd class="text-sm text-zinc-500" data-i18n="hStreak"></dd></div>
+        </dl>
+      </div>
+      <div class="reveal rounded-3xl border border-white/10 bg-ink-900/80 p-6 md:p-8 shadow-2xl">
+        <p class="flex items-center gap-2 text-sm text-zinc-400"><span class="w-2 h-2 rounded-full bg-accent"></span><span data-i18n="quickTitle"></span></p>
+        <p class="mt-2 text-sm text-zinc-500" data-i18n="quickSub"></p>
+        <div id="quickList" class="mt-5 space-y-3"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRACTICES -->
+  <section id="practices" class="py-20 md:py-28 border-t border-white/5 bg-ink-900/40">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="reveal max-w-2xl">
+        <p class="font-mono text-sm text-accent">01</p>
+        <h2 class="mt-2 text-3xl md:text-4xl font-bold text-white tracking-tight" data-i18n="prTitle"></h2>
+        <p class="mt-3 text-zinc-400" data-i18n="prSub"></p>
+      </div>
+      <div id="prGrid" class="reveal mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </div>
+  </section>
+
+  <!-- BREATH -->
+  <section id="breath" class="py-20 md:py-28 border-t border-white/5">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="reveal max-w-2xl">
+        <p class="font-mono text-sm text-accent">02</p>
+        <h2 class="mt-2 text-3xl md:text-4xl font-bold text-white tracking-tight" data-i18n="brTitle"></h2>
+        <p class="mt-3 text-zinc-400" data-i18n="brSub"></p>
+      </div>
+      <div class="reveal mt-8 flex flex-wrap items-center gap-2"><span class="text-xs uppercase tracking-wider text-zinc-500 mr-2" data-i18n="brLen"></span><span id="brMins" class="flex flex-wrap gap-2"></span></div>
+      <div id="brGrid" class="reveal mt-6 grid sm:grid-cols-2 gap-4"></div>
+    </div>
+  </section>
+
+  <!-- TIMER -->
+  <section id="timer" class="py-20 md:py-28 border-t border-white/5 bg-ink-900/40">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="reveal max-w-2xl">
+        <p class="font-mono text-sm text-accent">03</p>
+        <h2 class="mt-2 text-3xl md:text-4xl font-bold text-white tracking-tight" data-i18n="tmTitle"></h2>
+        <p class="mt-3 text-zinc-400" data-i18n="tmSub"></p>
+      </div>
+      <div id="tmBox" class="reveal mt-10 rounded-3xl border border-white/10 bg-ink-900 p-6 md:p-8"></div>
+    </div>
+  </section>
+
+  <!-- SCIENCE -->
+  <section id="science" class="py-20 md:py-28 border-t border-white/5">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="reveal max-w-2xl">
+        <p class="font-mono text-sm text-accent">04</p>
+        <h2 class="mt-2 text-3xl md:text-4xl font-bold text-white tracking-tight" data-i18n="scTitle"></h2>
+        <p class="mt-3 text-zinc-400" data-i18n="scSub"></p>
+      </div>
+      <div id="scLegend" class="reveal mt-6 flex flex-wrap gap-2"></div>
+      <div id="scGrid" class="reveal mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </div>
+  </section>
+
+  <!-- TRADITIONS -->
+  <section id="traditions" class="py-20 md:py-28 border-t border-white/5 bg-ink-900/40">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="reveal max-w-2xl">
+        <p class="font-mono text-sm text-accent">05</p>
+        <h2 class="mt-2 text-3xl md:text-4xl font-bold text-white tracking-tight" data-i18n="trTitle"></h2>
+        <p class="mt-3 text-zinc-400" data-i18n="trSub"></p>
+      </div>
+      <div id="trGrid" class="reveal mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+      <div class="reveal mt-12 rounded-2xl border border-white/10 bg-ink-900 p-6 md:p-8">
+        <h3 class="flex items-center gap-2 font-semibold text-white"><i data-lucide="lightbulb" class="w-5 h-5 text-accent"></i><span data-i18n="tipsTitle"></span></h3>
+        <ul id="tipsList" class="mt-5 grid md:grid-cols-2 gap-x-8 gap-y-4"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SAFETY & MYTHS -->
+  <section id="safety" class="py-20 md:py-28 border-t border-white/5">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="reveal max-w-2xl">
+        <p class="font-mono text-sm text-accent">06</p>
+        <h2 class="mt-2 text-3xl md:text-4xl font-bold text-white tracking-tight" data-i18n="sfTitle"></h2>
+        <p class="mt-3 text-zinc-400" data-i18n="sfSub"></p>
+      </div>
+      <div id="sfGrid" class="reveal mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section id="stats" class="py-20 md:py-28 border-t border-white/5 bg-ink-900/40">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="reveal flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div class="max-w-2xl">
+          <p class="font-mono text-sm text-accent">07</p>
+          <h2 class="mt-2 text-3xl md:text-4xl font-bold text-white tracking-tight" data-i18n="stTitle"></h2>
+          <p class="mt-3 text-zinc-400" data-i18n="stSub"></p>
+        </div>
+        <button id="statsReset" class="self-start md:self-auto inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2.5 text-sm text-zinc-400 hover:border-rose-400/60 hover:text-rose-300 transition"><i data-lucide="trash-2" class="w-4 h-4"></i><span data-i18n="stReset"></span></button>
+      </div>
+      <div id="stBox" class="reveal mt-10"></div>
+    </div>
+  </section>
+
+  <!-- MORE COURSES -->
+  <section id="more" class="py-16 md:py-20 border-t border-white/5">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="reveal text-2xl md:text-3xl font-bold text-white tracking-tight" data-i18n="moreTitle"></h2>
+      <p class="reveal mt-2 text-zinc-400" data-i18n="moreSub"></p>
+      <div id="moreGrid" class="reveal mt-8 grid md:grid-cols-2 gap-4"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="border-t border-white/5 py-8 text-center text-sm text-zinc-600">
+  <p>Meditat.io · <span data-i18n="footer"></span></p>
+  <p id="offlineState" class="mt-3 text-xs text-zinc-600"></p>
+  <a href="https://github.com/MarkoSh/Meditat.io" target="_blank" rel="noopener" class="mt-3 inline-flex items-center gap-1.5 text-zinc-500 hover:text-accent transition"><i data-lucide="github" class="w-4 h-4"></i>github.com/MarkoSh/Meditat.io</a>
+</footer>
+
+<!-- PLAYER -->
+<div id="player" class="fixed inset-0 z-50 hidden bg-ink-950/95 backdrop-blur-xl overflow-y-auto">
+  <div class="min-h-full max-w-2xl mx-auto px-4 py-5 md:py-8 flex flex-col">
+    <div class="flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3 min-w-0">
+        <span id="pIcon" class="grid place-items-center w-10 h-10 shrink-0 rounded-xl bg-accent/10 text-accent"></span>
+        <h2 id="pTitle" class="text-xl md:text-2xl font-bold text-white truncate"></h2>
+      </div>
+      <button id="pClose" class="grid place-items-center w-10 h-10 shrink-0 rounded-xl border border-white/10 text-zinc-400 hover:text-white transition" aria-label="close"><i data-lucide="x" class="w-5 h-5"></i></button>
+    </div>
+    <div id="pBody" class="flex-1 flex flex-col items-center justify-center py-8"></div>
+  </div>
+</div>
+
+<script>
+/* ================= UI TEXT ================= */
+const T = {
+  ru: {
+    navPractices: 'Практики', navBreath: 'Дыхание', navTimer: 'Таймер', navScience: 'Наука', navTraditions: 'Традиции', navSafety: 'Осторожно', navStats: 'Статистика',
+    heroBadge: 'Медитация без мистики и без обещаний чуда',
+    heroTitle: 'Тише ум — <span class="text-accent">яснее голова</span>',
+    heroSub: 'Короткие медитации с голосом, дыхательные ритмы и таймер с колоколом. Рядом — что о медитации на самом деле известно науке, откуда пришли практики и когда стоит быть осторожнее.',
+    heroCta: 'Выбрать практику', heroCta2: 'Что говорит наука',
+    hPractices: 'практик', hMinutes: 'минут с нами', hStreak: 'дней подряд',
+    quickTitle: 'Есть пара минут?', quickSub: 'Начните прямо сейчас — без подготовки и специальной позы.',
+    prTitle: 'Практики с голосом', prSub: 'Каждая практика — сценарий с паузами. Голосовые записи скоро появятся; пока практика идёт по тексту на экране с мягким колоколом в начале и в конце.',
+    prStart: 'Начать', min: 'мин',
+    cat_breath: 'Дыхание', cat_attention: 'Внимание', cat_body: 'Тело', cat_kindness: 'Доброта', cat_sleep: 'Сон',
+    brTitle: 'Дыхательные ритмы', brSub: 'Следите за кругом: растёт — вдох, сжимается — выдох, замер — задержка. Дышите носом, без усилия; закружилась голова — вернитесь к обычному дыханию.',
+    brLen: 'Длительность', brIn: 'Вдох', brTop: 'Ещё вдох', brHold: 'Задержка', brOut: 'Выдох', brPerMin: '{n} дыханий в минуту',
+    tmTitle: 'Таймер тишины', tmSub: 'Для тех, кто практикует сам. Колокол в начале, по желанию — тихий удар через равные промежутки, три удара в конце.',
+    tmLen: 'Длительность', tmBell: 'Промежуточный колокол', tmNone: 'без него', tmEvery: 'каждые {n} мин', tmStart: 'Начать', tmName: 'Тишина',
+    scTitle: 'Что говорит наука', scSub: 'Крупные обзоры и заметные исследования — с честной пометкой, насколько им можно доверять. Ссылка ведёт на саму статью.',
+    trTitle: 'Откуда это пришло', trSub: 'Практики старше любых приложений: от палийского канона и Афона до клиники стресса в Массачусетсе.',
+    tipsTitle: 'Как начать и не бросить',
+    sfTitle: 'Мифы и осторожность', sfSub: 'Медитация — не волшебная таблетка и не всегда безобидна. Что стоит знать до того, как сесть.',
+    stTitle: 'Ваша практика', stSub: 'Всё хранится только в вашем браузере. Считаются практики от 30 секунд.',
+    stReset: 'Сбросить', stConfirm: 'Удалить всю статистику практик?', stMinutes: 'минут всего', stSessions: 'практик', stStreak: 'дней подряд', stBest: 'лучшая серия',
+    stDays: 'Минуты за 14 дней', stEmpty: 'Пока пусто — начните с любой короткой практики.', stLast: 'Последние практики',
+    tagAncient: 'древняя практика', tagProof: 'доказано', tagData: 'есть данные', tagClassic: 'классика', tagDebate: 'спорно', tagMyth: 'миф',
+    pPause: 'Пауза', pResume: 'Дальше', pStop: 'Закончить', pLeft: 'осталось {t}', pVoice: 'Звучит голос — просто слушайте', pText: 'Читайте подсказку и закрывайте глаза между ними — колокол позовёт',
+    pDone: 'Готово', pDoneSub: '{m} — записано в статистику. Посидите ещё немного, прежде чем вставать.', pClose: 'Закрыть', pAgain: 'Ещё раз',
+    pReady: 'Сядьте удобно. Практика начнётся с колокола.', pGo: 'Начать',
+    moreTitle: 'Ещё наши проекты', moreSub: 'Тот же подход: коротко, честно, с источниками.',
+    footer: 'медитации, дыхание и наука о них',
+  },
+  en: {
+    navPractices: 'Practices', navBreath: 'Breathing', navTimer: 'Timer', navScience: 'Science', navTraditions: 'Traditions', navSafety: 'Caution', navStats: 'Stats',
+    heroBadge: 'Meditation without mysticism or miracle promises',
+    heroTitle: 'A quieter mind, <span class="text-accent">a clearer head</span>',
+    heroSub: 'Short guided meditations, breathing rhythms and a timer with a bell. Next to them: what science actually knows about meditation, where the practices come from and when to be careful.',
+    heroCta: 'Choose a practice', heroCta2: 'What science says',
+    hPractices: 'practices', hMinutes: 'minutes with us', hStreak: 'day streak',
+    quickTitle: 'Got a couple of minutes?', quickSub: 'Start right now: no preparation, no special posture.',
+    prTitle: 'Guided practices', prSub: 'Each practice is a script with pauses. Voice recordings are coming soon; for now the practice runs as on-screen text with a soft bell at the start and the end.',
+    prStart: 'Start', min: 'min',
+    cat_breath: 'Breath', cat_attention: 'Attention', cat_body: 'Body', cat_kindness: 'Kindness', cat_sleep: 'Sleep',
+    brTitle: 'Breathing rhythms', brSub: 'Follow the circle: it grows, breathe in; it shrinks, breathe out; it stops, hold. Breathe through the nose without strain; if you feel dizzy, go back to normal breathing.',
+    brLen: 'Length', brIn: 'In', brTop: 'Top up', brHold: 'Hold', brOut: 'Out', brPerMin: '{n} breaths a minute',
+    tmTitle: 'Silence timer', tmSub: 'For those who practise on their own. A bell at the start, an optional soft strike at even intervals, three strikes at the end.',
+    tmLen: 'Length', tmBell: 'Interval bell', tmNone: 'none', tmEvery: 'every {n} min', tmStart: 'Start', tmName: 'Silence',
+    scTitle: 'What science says', scSub: 'Large reviews and notable studies, with an honest label for how far to trust them. Each link goes to the paper itself.',
+    trTitle: 'Where it comes from', trSub: 'These practices are older than any app: from the Pali Canon and Mount Athos to a stress clinic in Massachusetts.',
+    tipsTitle: 'How to start and keep going',
+    sfTitle: 'Myths and caution', sfSub: 'Meditation is not a magic pill and not always harmless. What to know before you sit down.',
+    stTitle: 'Your practice', stSub: 'Everything stays in your browser only. Practices of 30 seconds or more count.',
+    stReset: 'Reset', stConfirm: 'Delete all practice stats?', stMinutes: 'minutes in total', stSessions: 'practices', stStreak: 'day streak', stBest: 'best streak',
+    stDays: 'Minutes over 14 days', stEmpty: 'Nothing yet: start with any short practice.', stLast: 'Recent practices',
+    tagAncient: 'ancient practice', tagProof: 'proven', tagData: 'some data', tagClassic: 'classic', tagDebate: 'debated', tagMyth: 'myth',
+    pPause: 'Pause', pResume: 'Resume', pStop: 'Finish', pLeft: '{t} left', pVoice: 'The voice is guiding you: just listen', pText: 'Read the prompt and close your eyes in between: the bell will call you',
+    pDone: 'Done', pDoneSub: '{m}, saved to your stats. Sit a little longer before you get up.', pClose: 'Close', pAgain: 'Again',
+    pReady: 'Sit comfortably. The practice starts with a bell.', pGo: 'Start',
+    moreTitle: 'More of our projects', moreSub: 'Same approach: short, honest, with sources.',
+    footer: 'meditation, breathing and the science of both',
+  },
+  th: {
+    navPractices: 'การฝึก', navBreath: 'ลมหายใจ', navTimer: 'ตัวจับเวลา', navScience: 'วิทยาศาสตร์', navTraditions: 'ที่มา', navSafety: 'ข้อควรระวัง', navStats: 'สถิติ',
+    heroBadge: 'สมาธิแบบไม่ลึกลับ และไม่สัญญาปาฏิหาริย์',
+    heroTitle: 'ใจสงบ <span class="text-accent">หัวโปร่ง</span>',
+    heroSub: 'สมาธิสั้น ๆ พร้อมเสียงนำ จังหวะการหายใจ และตัวจับเวลาพร้อมระฆัง ข้าง ๆ กันคือสิ่งที่วิทยาศาสตร์รู้จริงเกี่ยวกับสมาธิ ที่มาของการฝึกแต่ละแบบ และเมื่อไรควรระวัง',
+    heroCta: 'เลือกการฝึก', heroCta2: 'วิทยาศาสตร์ว่าอย่างไร',
+    hPractices: 'การฝึก', hMinutes: 'นาทีที่ฝึก', hStreak: 'วันติดต่อกัน',
+    quickTitle: 'มีเวลาสักสองสามนาทีไหม', quickSub: 'เริ่มได้เลย ไม่ต้องเตรียมตัว ไม่ต้องนั่งท่าพิเศษ',
+    prTitle: 'การฝึกพร้อมเสียงนำ', prSub: 'การฝึกแต่ละแบบคือบทนำพร้อมช่วงเงียบ เสียงบันทึกจะมาเร็ว ๆ นี้ ระหว่างนี้ใช้ข้อความบนจอ พร้อมเสียงระฆังเบา ๆ ตอนเริ่มและตอนจบ',
+    prStart: 'เริ่ม', min: 'นาที',
+    cat_breath: 'ลมหายใจ', cat_attention: 'สมาธิ', cat_body: 'ร่างกาย', cat_kindness: 'เมตตา', cat_sleep: 'การนอน',
+    brTitle: 'จังหวะการหายใจ', brSub: 'ดูวงกลม วงขยาย หายใจเข้า วงหด หายใจออก วงหยุด กลั้นไว้ หายใจทางจมูกแบบไม่ฝืน ถ้าเวียนหัว ให้กลับไปหายใจตามปกติ',
+    brLen: 'ระยะเวลา', brIn: 'เข้า', brTop: 'เข้าอีกนิด', brHold: 'กลั้น', brOut: 'ออก', brPerMin: '{n} ครั้งต่อนาที',
+    tmTitle: 'ตัวจับเวลาความเงียบ', tmSub: 'สำหรับคนที่ฝึกเอง ระฆังตอนเริ่ม เลือกให้ตีเบา ๆ เป็นระยะได้ และตีสามครั้งตอนจบ',
+    tmLen: 'ระยะเวลา', tmBell: 'ระฆังระหว่างทาง', tmNone: 'ไม่มี', tmEvery: 'ทุก {n} นาที', tmStart: 'เริ่ม', tmName: 'ความเงียบ',
+    scTitle: 'วิทยาศาสตร์ว่าอย่างไร', scSub: 'งานทบทวนขนาดใหญ่และงานวิจัยที่น่าสนใจ พร้อมป้ายบอกตรง ๆ ว่าเชื่อถือได้แค่ไหน ลิงก์พาไปที่บทความต้นฉบับ',
+    trTitle: 'ที่มาของการฝึก', trSub: 'การฝึกเหล่านี้เก่ากว่าแอปใด ๆ ตั้งแต่พระไตรปิฎกบาลีและภูเขาอาทอส จนถึงคลินิกคลายเครียดในแมสซาชูเซตส์',
+    tipsTitle: 'เริ่มอย่างไรให้ไม่เลิกกลางทาง',
+    sfTitle: 'ความเชื่อผิด ๆ และข้อควรระวัง', sfSub: 'สมาธิไม่ใช่ยาวิเศษ และไม่ได้ปลอดภัยเสมอไป สิ่งที่ควรรู้ก่อนเริ่มนั่ง',
+    stTitle: 'การฝึกของคุณ', stSub: 'ทุกอย่างเก็บไว้ในเบราว์เซอร์ของคุณเท่านั้น นับการฝึกตั้งแต่ 30 วินาทีขึ้นไป',
+    stReset: 'ล้าง', stConfirm: 'ลบสถิติการฝึกทั้งหมดไหม', stMinutes: 'นาทีทั้งหมด', stSessions: 'ครั้ง', stStreak: 'วันติดต่อกัน', stBest: 'ติดต่อกันนานสุด',
+    stDays: 'นาทีใน 14 วัน', stEmpty: 'ยังไม่มีข้อมูล เริ่มจากการฝึกสั้น ๆ แบบไหนก็ได้', stLast: 'การฝึกล่าสุด',
+    tagAncient: 'การฝึกโบราณ', tagProof: 'พิสูจน์แล้ว', tagData: 'มีข้อมูล', tagClassic: 'คลาสสิก', tagDebate: 'ยังถกเถียง', tagMyth: 'ความเชื่อผิด ๆ',
+    pPause: 'พัก', pResume: 'ต่อ', pStop: 'จบ', pLeft: 'เหลือ {t}', pVoice: 'เสียงกำลังนำ แค่ฟังไป', pText: 'อ่านคำแนะนำ แล้วหลับตาระหว่างนั้น ระฆังจะเรียกเอง',
+    pDone: 'เสร็จแล้ว', pDoneSub: '{m} บันทึกในสถิติแล้ว นั่งต่ออีกสักครู่ก่อนลุก', pClose: 'ปิด', pAgain: 'อีกครั้ง',
+    pReady: 'นั่งให้สบาย การฝึกจะเริ่มด้วยเสียงระฆัง', pGo: 'เริ่ม',
+    moreTitle: 'โปรเจกต์อื่นของเรา', moreSub: 'แนวเดียวกัน สั้น ตรงไปตรงมา มีแหล่งอ้างอิง',
+    footer: 'สมาธิ การหายใจ และวิทยาศาสตร์เบื้องหลัง',
+  },
+};
+
+/* ================= HELPERS ================= */
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const store = {
+  get(k, d) { try { return localStorage.getItem(k) ?? d } catch (e) { return d } },
+  set(k, v) { try { localStorage.setItem(k, v) } catch (e) {} },
+  del(k) { try { localStorage.removeItem(k) } catch (e) {} },
+};
+const LANGS = ['ru', 'en', 'th'];
+let lang = store.get('md-lang', LANGS.find(l => (navigator.language || '').startsWith(l)) || 'en');
+const t = k => T[lang][k] ?? T.en[k];
+const L = o => o[lang] ?? o.en;                        // { ru, en, th } -> current language
+const tri = (ru, en, th) => ({ ru, en, th });
+const fill = (s, v) => s.replace(/\{(\w+)\}/g, (_, k) => v[k]);
+const icons = () => lucide.createIcons();
+const mm = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+const chip = on => `inline-flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-semibold transition ${on ? 'border-accent bg-accent/10 text-white' : 'border-white/10 text-zinc-400 hover:text-white'}`;
+const card = 'rounded-2xl border border-white/10 bg-ink-900 p-5 flex flex-col';
+const btn = 'inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 font-semibold transition';
+
+const TAGS = { ancient: ['tagAncient', 'text-violet-300 border-violet-400/30 bg-violet-400/5'], proof: ['tagProof', 'text-emerald-300 border-emerald-400/30 bg-emerald-400/5'],
+  data: ['tagData', 'text-accent border-accent/30 bg-accent/5'], classic: ['tagClassic', 'text-sky-300 border-sky-400/30 bg-sky-400/5'], debate: ['tagDebate', 'text-rose-300 border-rose-400/30 bg-rose-400/5'], myth: ['tagMyth', 'text-zinc-400 border-zinc-500/40 bg-zinc-500/5'] };
+const tagHTML = k => `<span class="shrink-0 rounded-full border px-2.5 py-0.5 text-xs font-medium ${TAGS[k][1]}">${t(TAGS[k][0])}</span>`;
+
+/* ================= PRACTICES ================= */
+// Each script line: [second it appears, text]. The same lines are what the voice reads (tools/scripts.js prints them
+// for recording); a recording at audio/<lang>/<id>.mp3 replaces the on-screen text for that language.
+const PRACTICES = [
+  { id: 'stop', icon: 'hand', cat: 'attention', min: 1, tags: ['classic'], t: tri('STOP: минута посреди дня', 'STOP: a minute in the middle of the day', 'STOP: หนึ่งนาทีกลางวัน'),
+    d: tri('Остановиться, вдохнуть, заметить, продолжить. Короткая пауза из программ осознанности — между делами, перед трудным письмом или разговором.', 'Stop, breathe, notice, proceed. A short pause from mindfulness programmes: between tasks, before a hard email or conversation.', 'หยุด หายใจ สังเกต แล้วไปต่อ ช่วงพักสั้น ๆ จากโปรแกรมฝึกสติ ใช้ระหว่างงาน ก่อนเขียนอีเมลยาก ๆ หรือก่อนคุยเรื่องสำคัญ'),
+    script: [
+      [0, tri('Остановитесь. Что бы вы ни делали — на минуту отложите это.', 'Stop. Whatever you are doing, put it aside for a minute.', 'หยุดก่อน ไม่ว่ากำลังทำอะไรอยู่ วางไว้สักหนึ่งนาที')],
+      [10, tri('Сделайте один медленный вдох… и долгий выдох.', 'Take one slow breath in… and a long breath out.', 'หายใจเข้าช้า ๆ หนึ่งครั้ง… แล้วหายใจออกยาว ๆ')],
+      [22, tri('Заметьте, что сейчас происходит: в теле, в мыслях, в настроении. Ничего не меняйте — просто отметьте.', 'Notice what is here right now: in the body, in your thoughts, in your mood. Change nothing, just notice.', 'สังเกตสิ่งที่เกิดขึ้นตอนนี้ ในร่างกาย ในความคิด ในอารมณ์ ไม่ต้องเปลี่ยนอะไร แค่รับรู้')],
+      [42, tri('Спросите себя: что сейчас важнее всего? И продолжайте — с этим.', 'Ask yourself: what matters most right now? Carry on with that.', 'ถามตัวเองว่า ตอนนี้อะไรสำคัญที่สุด แล้วทำต่อด้วยสิ่งนั้น')],
+    ] },
+  { id: 'space', icon: 'wind', cat: 'breath', min: 3, tags: ['proof'], t: tri('Три минуты дыхания', 'Three-minute breathing space', 'สามนาทีกับลมหายใจ'),
+    d: tri('Часть программы MBCT, которая вдвое реже даёт рецидивы депрессии у тех, у кого их было много. Три шага: заметить, собрать внимание на дыхании, расширить его на всё тело.', 'Part of MBCT, the programme that cuts depressive relapse in people with several past episodes. Three steps: notice, gather attention on the breath, widen it to the whole body.', 'ส่วนหนึ่งของโปรแกรม MBCT ที่ช่วยลดการกลับมาของภาวะซึมเศร้า มีสามขั้น สังเกต รวบรวมใจไว้ที่ลมหายใจ แล้วขยายไปทั้งร่างกาย'),
+    script: [
+      [0, tri('Сядьте удобно, спина прямая, но не напряжённая. Если хочется — закройте глаза.', 'Sit comfortably, back upright but not stiff. Close your eyes if you like.', 'นั่งให้สบาย หลังตรงแต่ไม่เกร็ง จะหลับตาก็ได้')],
+      [12, tri('Первая минута — заметить. Какие сейчас мысли? Какие чувства? Какие ощущения в теле? Просто отметьте, как есть.', 'Minute one: notice. What thoughts are here? What feelings? What sensations in the body? Just note them as they are.', 'นาทีแรก สังเกต ตอนนี้มีความคิดอะไร ความรู้สึกอะไร ร่างกายรู้สึกอย่างไร แค่รับรู้ตามที่เป็น')],
+      [60, tri('Вторая минута — собрать внимание. Переведите его на дыхание в животе: на вдохе живот поднимается, на выдохе опускается.', 'Minute two: gather. Bring attention to the breath in your belly: it rises on the in-breath and falls on the out-breath.', 'นาทีที่สอง รวบรวมใจ นำความสนใจมาที่ลมหายใจตรงหน้าท้อง ท้องพองเมื่อหายใจเข้า ยุบเมื่อหายใจออก')],
+      [95, tri('Ушли в мысли — это нормально. Мягко верните внимание к дыханию.', 'If attention drifts into thoughts, that is normal. Gently bring it back to the breath.', 'ถ้าใจลอยไปกับความคิด เป็นเรื่องปกติ ค่อย ๆ พากลับมาที่ลมหายใจ')],
+      [120, tri('Третья минута — расширить. Почувствуйте всё тело сразу: как оно сидит, как дышит.', 'Minute three: widen. Sense the whole body at once: how it sits, how it breathes.', 'นาทีที่สาม ขยายการรับรู้ รู้สึกทั้งร่างกายพร้อมกัน ท่านั่ง และการหายใจ')],
+      [160, tri('Сделайте вдох поглубже — и, когда будете готовы, откройте глаза.', 'Take a deeper breath, and when you are ready, open your eyes.', 'หายใจเข้าลึกขึ้นอีกนิด แล้วเมื่อพร้อม ค่อย ๆ ลืมตา')],
+    ] },
+  { id: 'count', icon: 'list-ordered', cat: 'attention', min: 5, tags: ['ancient'], t: tri('Счёт выдохов до десяти', 'Counting out-breaths to ten', 'นับลมหายใจออกถึงสิบ'),
+    d: tri('Сусокукан — первая практика, которую дают новичкам в дзэн-монастырях. Счёт держит внимание и честно показывает, когда оно ушло.', 'Susokukan, the first practice beginners get in Zen monasteries. The count holds attention and shows honestly when it has slipped.', 'ซูโซกุกัง การฝึกแรกที่วัดเซนให้ผู้เริ่มต้น การนับช่วยประคองใจ และบอกตรง ๆ ว่าใจหลุดไปเมื่อไร'),
+    script: [
+      [0, tri('Сядьте устойчиво. Дышите как обычно, ничего не регулируйте.', 'Sit steadily. Breathe as usual, do not control the breath.', 'นั่งให้มั่นคง หายใจตามปกติ ไม่ต้องบังคับลมหายใจ')],
+      [15, tri('На каждом выдохе считайте про себя: один… два… и так до десяти. Потом снова с одного.', 'On each out-breath, count silently: one… two… up to ten. Then start again at one.', 'ทุกครั้งที่หายใจออก นับในใจ หนึ่ง… สอง… จนถึงสิบ แล้วเริ่มที่หนึ่งใหม่')],
+      [60, tri('Сбились или вдруг насчитали пятнадцать — улыбнитесь и начните с одного. Это и есть тренировка.', 'Lost count, or found yourself at fifteen? Smile and start again at one. That is the training.', 'นับพลาด หรือเผลอนับไปถึงสิบห้า ยิ้มแล้วเริ่มที่หนึ่งใหม่ นี่แหละคือการฝึก')],
+      [150, tri('Пусть счёт будет лёгким — меткой на выдохе, а не задачей.', 'Let the count be light: a tag on the out-breath, not a task.', 'ให้การนับเบา ๆ เป็นแค่เครื่องหมายบนลมหายใจออก ไม่ใช่งาน')],
+      [240, tri('Последняя минута. Продолжайте считать…', 'Last minute. Keep counting…', 'นาทีสุดท้าย นับต่อไป…')],
+      [285, tri('Отпустите счёт. Посидите ещё пару вдохов просто так.', 'Let go of the count. Sit for a couple more breaths, just as you are.', 'ปล่อยการนับ นั่งต่ออีกสองสามลมหายใจตามสบาย')],
+    ] },
+  { id: 'sounds', icon: 'ear', cat: 'attention', min: 5, tags: ['classic'], t: tri('Звуки вокруг', 'Sounds around you', 'เสียงรอบตัว'),
+    d: tri('Открытое внимание: не держаться за одну точку, а замечать всё, что приходит. Звуки — самая простая опора, их не нужно искать.', 'Open awareness: instead of holding one point, notice whatever arrives. Sounds are the easiest anchor; you never have to look for them.', 'การรับรู้แบบเปิด ไม่ยึดจุดเดียว แต่สังเกตทุกอย่างที่เข้ามา เสียงเป็นหลักยึดที่ง่ายที่สุด เพราะไม่ต้องไปหา'),
+    script: [
+      [0, tri('Закройте глаза. Дайте звукам прийти к вам — не ищите их.', 'Close your eyes. Let sounds come to you; do not search for them.', 'หลับตา ปล่อยให้เสียงเข้ามาเอง ไม่ต้องไปหา')],
+      [30, tri('Близкие и дальние, громкие и тихие. Замечайте их как погоду: пришёл, звучит, ушёл.', 'Near and far, loud and quiet. Notice them like weather: it arrives, it sounds, it goes.', 'ใกล้และไกล ดังและเบา สังเกตเหมือนดูฟ้าดูฝน มาแล้ว ดังอยู่ แล้วก็ไป')],
+      [90, tri('Ум сразу даёт звукам имена: «машина», «голос». Попробуйте слышать просто звук — высоту, громкость, ритм.', 'The mind names sounds at once: “car”, “voice”. Try hearing just the sound: pitch, loudness, rhythm.', 'ใจจะตั้งชื่อเสียงทันที รถ เสียงคน ลองฟังแค่เสียง สูงต่ำ ดังเบา จังหวะ')],
+      [160, tri('Заметьте и тишину между звуками.', 'Notice the silence between sounds too.', 'สังเกตความเงียบระหว่างเสียงด้วย')],
+      [230, tri('Затянуло в мысли — первый же услышанный звук вернёт вас обратно.', 'If thoughts pull you away, the next sound you hear brings you back.', 'ถ้าความคิดดึงไป เสียงแรกที่ได้ยินจะพาเรากลับมา')],
+      [285, tri('Медленно откройте глаза.', 'Slowly open your eyes.', 'ค่อย ๆ ลืมตา')],
+    ] },
+  { id: 'walk', icon: 'footprints', cat: 'body', min: 5, tags: ['ancient'], t: tri('Медитация при ходьбе', 'Walking meditation', 'เดินจงกรม'),
+    d: tri('Кинхин в дзэне, จงกรม (чонгкром) в тайских монастырях. Хороша, когда сидеть тяжело, клонит в сон или беспокойно.', 'Kinhin in Zen, จงกรม (jongkrom) in Thai monasteries. Good when sitting is hard, when you are sleepy or restless.', 'คินฮินในเซน และการเดินจงกรมในวัดไทย เหมาะเมื่อนั่งนานไม่ไหว ง่วง หรือใจกระสับกระส่าย'),
+    script: [
+      [0, tri('Найдите место, где можно пройти десять–двадцать шагов. Идите медленнее обычного.', 'Find a place where you can take ten to twenty steps. Walk slower than usual.', 'หาที่ที่เดินได้สิบถึงยี่สิบก้าว เดินช้ากว่าปกติ')],
+      [20, tri('Чувствуйте каждый шаг: пятка… перекат… носок. Вес переходит с ноги на ногу.', 'Feel each step: heel… roll… toe. The weight shifts from foot to foot.', 'รู้สึกทุกก้าว ส้นเท้า… ฝ่าเท้า… ปลายเท้า น้ำหนักย้ายจากเท้าหนึ่งไปอีกเท้า')],
+      [80, tri('Можно отмечать про себя: «поднимаю… переношу… ставлю». Так отмечают шаги в тайских монастырях.', 'You can note silently: “lifting… moving… placing”. This is how steps are noted in Thai monasteries.', 'ภาวนาในใจได้ว่า ยกหนอ… ย่างหนอ… เหยียบหนอ')],
+      [150, tri('В конце дорожки остановитесь, постойте один вдох, развернитесь — и обратно.', 'At the end of the path, stop, stand for one breath, turn around and walk back.', 'สุดทาง หยุด ยืนหนึ่งลมหายใจ หมุนตัว แล้วเดินกลับ')],
+      [240, tri('Добавьте к шагам звуки, воздух, свет вокруг.', 'Add the sounds, the air and the light around you to the steps.', 'รับรู้เสียง อากาศ และแสงรอบตัวไปพร้อมกับก้าวเดิน')],
+      [285, tri('Остановитесь. Постойте. Почувствуйте, как вы стоите.', 'Stop. Stand. Feel yourself standing.', 'หยุด ยืนนิ่ง รู้สึกถึงการยืน')],
+    ] },
+  { id: 'metta', icon: 'heart', cat: 'kindness', min: 8, tags: ['ancient', 'data'], t: tri('Доброта (метта)', 'Loving-kindness (metta)', 'แผ่เมตตา'),
+    d: tri('Пожелания добра по кругу: себе, близкому, незнакомому, трудному человеку, всем. За семь недель такой практики у людей прибавилось хороших эмоций в обычные дни (Fredrickson, 2008).', 'Kind wishes in widening circles: yourself, someone close, a stranger, someone difficult, everyone. Seven weeks of it raised people’s everyday positive emotions (Fredrickson, 2008).', 'ส่งความปรารถนาดีเป็นวง ตัวเอง คนใกล้ตัว คนแปลกหน้า คนที่เรารู้สึกยาก และทุกชีวิต ฝึกเจ็ดสัปดาห์แล้วอารมณ์ดีในชีวิตประจำวันเพิ่มขึ้น (Fredrickson ค.ศ. 2008)'),
+    script: [
+      [0, tri('Сядьте удобно. Вспомните момент, когда кто-то был к вам по-настоящему добр. Побудьте с этим теплом.', 'Sit comfortably. Recall a moment when someone was truly kind to you. Stay with that warmth.', 'นั่งให้สบาย นึกถึงตอนที่มีคนใจดีกับเราจริง ๆ อยู่กับความอบอุ่นนั้นสักพัก')],
+      [45, tri('Теперь пожелайте себе, медленно, про себя: пусть я буду в безопасности. Пусть я буду здоров. Пусть мне будет легко.', 'Now wish yourself, slowly and silently: may I be safe. May I be healthy. May I live with ease.', 'อวยพรตัวเองช้า ๆ ในใจ ขอให้ฉันปลอดภัย ขอให้ฉันแข็งแรง ขอให้ฉันอยู่อย่างสบายใจ')],
+      [120, tri('Если фразы звучат пусто — ничего страшного. Важно намерение, а не чувство.', 'If the phrases feel empty, that is fine. The intention matters, not the feeling.', 'ถ้ารู้สึกว่าคำเหล่านี้ว่างเปล่า ไม่เป็นไร เจตนาสำคัญกว่าความรู้สึก')],
+      [160, tri('Представьте близкого человека. Пусть ты будешь в безопасности. Пусть ты будешь здоров. Пусть тебе будет легко.', 'Picture someone close to you. May you be safe. May you be healthy. May you live with ease.', 'นึกถึงคนใกล้ตัว ขอให้เธอปลอดภัย ขอให้เธอแข็งแรง ขอให้เธออยู่อย่างสบายใจ')],
+      [250, tri('Теперь — нейтрального человека: продавца, соседа, водителя автобуса. Те же пожелания.', 'Now someone neutral: a cashier, a neighbour, a bus driver. The same wishes.', 'ตอนนี้นึกถึงคนที่เราไม่ได้รู้สึกอะไรเป็นพิเศษ คนขายของ เพื่อนบ้าน คนขับรถเมล์ อวยพรแบบเดียวกัน')],
+      [330, tri('Если готовы — того, с кем непросто. Можно совсем чуть-чуть. Пусть и ты будешь в безопасности.', 'If you are ready, someone you find difficult. Even just a little. May you, too, be safe.', 'ถ้าพร้อม นึกถึงคนที่เรารู้สึกยาก แค่นิดเดียวก็ได้ ขอให้เธอปลอดภัยเช่นกัน')],
+      [400, tri('И наконец — всех живых существ, везде. Пусть все будут в безопасности. Пусть всем будет легко.', 'And finally, all living beings, everywhere. May all be safe. May all live with ease.', 'สุดท้าย สรรพสัตว์ทั้งหลายทุกหนแห่ง ขอให้ทุกชีวิตปลอดภัย ขอให้ทุกชีวิตอยู่อย่างสบายใจ')],
+      [450, tri('Побудьте немного в тишине.', 'Rest a little in silence.', 'อยู่กับความเงียบสักครู่')],
+    ] },
+  { id: 'body', icon: 'scan-line', cat: 'body', min: 10, tags: ['proof'], t: tri('Сканирование тела', 'Body scan', 'สำรวจร่างกาย'),
+    d: tri('Внимание медленно проходит от ступней до макушки. С этой практики начинается восьминедельная программа MBSR — самая изученная в науке о медитации.', 'Attention moves slowly from the feet to the crown. It opens the eight-week MBSR programme, the most studied in meditation research.', 'ความสนใจค่อย ๆ เลื่อนจากเท้าขึ้นไปถึงศีรษะ เป็นการฝึกแรกของโปรแกรม MBSR แปดสัปดาห์ ซึ่งมีงานวิจัยมากที่สุด'),
+    script: [
+      [0, tri('Лягте или сядьте удобно. Закройте глаза. Почувствуйте, где тело касается опоры.', 'Lie down or sit comfortably. Close your eyes. Feel where the body touches the support.', 'นอนหรือนั่งให้สบาย หลับตา รู้สึกถึงจุดที่ร่างกายสัมผัสพื้นหรือเก้าอี้')],
+      [30, tri('Начнём со ступней. Пальцы, подошвы, пятки. Тепло, холод, покалывание — или ничего. Всё подходит.', 'Start with the feet. Toes, soles, heels. Warmth, coolness, tingling, or nothing at all. Everything counts.', 'เริ่มที่เท้า นิ้วเท้า ฝ่าเท้า ส้นเท้า อุ่น เย็น ซ่า หรือไม่รู้สึกอะไร ทุกอย่างใช้ได้')],
+      [100, tri('Поднимитесь к голеням и коленям. Если где-то напряжение — на выдохе дайте ему чуть смягчиться.', 'Move up to the shins and knees. If there is tension, let it soften a little on the out-breath.', 'เลื่อนขึ้นมาที่หน้าแข้งและหัวเข่า ถ้าตรงไหนตึง ปล่อยให้คลายลงนิดหนึ่งตอนหายใจออก')],
+      [170, tri('Бёдра, таз. Вес тела, его тяжесть.', 'Thighs and hips. The weight of the body.', 'ต้นขา สะโพก รู้สึกถึงน้ำหนักของร่างกาย')],
+      [230, tri('Живот и поясница. Живот мягко движется с дыханием.', 'Belly and lower back. The belly moves softly with the breath.', 'หน้าท้องและหลังส่วนล่าง ท้องขยับเบา ๆ ตามลมหายใจ')],
+      [300, tri('Грудь, спина, лопатки. Сердце бьётся само, дыхание идёт само.', 'Chest, back, shoulder blades. The heart beats by itself, the breath comes by itself.', 'หน้าอก แผ่นหลัง สะบัก หัวใจเต้นเอง ลมหายใจมาเอง')],
+      [370, tri('Плечи, руки — до кончиков пальцев. Плечам можно опуститься.', 'Shoulders, arms, all the way to the fingertips. Let the shoulders drop.', 'ไหล่ แขน จนถึงปลายนิ้ว ปล่อยไหล่ลง')],
+      [440, tri('Шея, челюсть, язык, глаза, лоб. Разожмите челюсть, расслабьте лоб.', 'Neck, jaw, tongue, eyes, forehead. Unclench the jaw, smooth the forehead.', 'คอ กราม ลิ้น ดวงตา หน้าผาก คลายกราม ผ่อนหน้าผาก')],
+      [510, tri('Теперь всё тело целиком — от макушки до пяток, одно целое, которое дышит.', 'Now the whole body, from the crown to the heels, one breathing whole.', 'ตอนนี้รู้สึกทั้งร่างกาย จากศีรษะถึงส้นเท้า เป็นหนึ่งเดียวที่กำลังหายใจ')],
+      [570, tri('Пошевелите пальцами, потянитесь. Откройте глаза, когда будете готовы.', 'Wiggle your fingers, stretch. Open your eyes when you are ready.', 'ขยับนิ้ว บิดตัวเบา ๆ ลืมตาเมื่อพร้อม')],
+    ] },
+  { id: 'sleep', icon: 'moon', cat: 'sleep', min: 10, tags: ['data'], quietEnd: true, t: tri('Перед сном', 'Before sleep', 'ก่อนนอน'),
+    d: tri('Длинный выдох, тяжесть и тепло из аутотренинга, обратный счёт. В конце без колокола — если уснёте, так и надо.', 'Long out-breaths, the heaviness and warmth of autogenic training, a countdown. No bell at the end: if you fall asleep, that is the point.', 'หายใจออกยาว ความหนักและความอุ่นแบบการฝึกออโตเจนิก และการนับถอยหลัง ตอนจบไม่มีระฆัง ถ้าหลับไปก็ดีแล้ว'),
+    script: [
+      [0, tri('Лягте так, как будете спать. Глаза закрыты. Сегодня больше ничего не нужно делать.', 'Lie down the way you will sleep. Eyes closed. There is nothing more to do today.', 'นอนในท่าที่จะหลับ หลับตา วันนี้ไม่มีอะไรต้องทำอีกแล้ว')],
+      [30, tri('Сделайте три медленных выдоха — каждый длиннее вдоха.', 'Take three slow out-breaths, each longer than the in-breath.', 'หายใจออกช้า ๆ สามครั้ง ให้ลมออกยาวกว่าลมเข้า')],
+      [75, tri('Пусть станет тяжёлой правая рука… левая рука… обе ноги. Тело тонет в матрасе.', 'Let the right arm grow heavy… the left arm… both legs. The body sinks into the mattress.', 'ปล่อยให้แขนขวาหนัก… แขนซ้าย… ขาทั้งสองข้าง ร่างกายจมลงในที่นอน')],
+      [170, tri('Приятное тепло в руках и ногах.', 'A pleasant warmth in the arms and legs.', 'ความอุ่นสบายในแขนและขา')],
+      [240, tri('Мысли о завтрашнем — это нормально. Скажите им «завтра» и вернитесь к тяжести тела.', 'Thoughts about tomorrow are normal. Tell them “tomorrow” and return to the heaviness of the body.', 'คิดถึงเรื่องพรุ่งนี้เป็นเรื่องปกติ บอกมันว่า พรุ่งนี้ แล้วกลับมาที่ความหนักของร่างกาย')],
+      [330, tri('Считайте выдохи назад от пятидесяти. Сбились — неважно, начните с любого числа.', 'Count your out-breaths backwards from fifty. Lost count? No matter, start from any number.', 'นับลมหายใจออกถอยหลังจากห้าสิบ นับพลาดก็ไม่เป็นไร เริ่มจากเลขไหนก็ได้')],
+      [450, tri('Дальше — тишина. Если уже засыпаете, так и надо.', 'Silence from here on. If you are already drifting off, that is exactly right.', 'ต่อจากนี้คือความเงียบ ถ้าเริ่มง่วง ก็ดีแล้ว')],
+    ] },
+];
+const PR = Object.fromEntries(PRACTICES.map(p => [p.id, p]));
+
+/* ================= BREATHING ================= */
+// phases: [kind, seconds], kind is in / top (a second short inhale) / hold / out
+const BREATHS = [
+  { id: 'resonant', icon: 'activity', tags: ['proof'], phases: [['in', 5.5], ['out', 5.5]], t: tri('Резонансное дыхание', 'Resonant breathing', 'หายใจแบบเรโซแนนซ์'),
+    d: tri('Около шести дыханий в минуту. На этом темпе сильнее всего раскачивается вариабельность пульса — признак работы «тормозящей» нервной системы; в обзорах медленное дыхание связано с меньшей тревогой и большим спокойствием (Zaccaro, 2018).', 'About six breaths a minute. At this pace heart-rate variability swings the most, a sign of the calming branch of the nervous system at work; reviews link slow breathing to less anxiety and more calm (Zaccaro, 2018).', 'ราวหกครั้งต่อนาที จังหวะนี้ทำให้ความแปรปรวนของการเต้นหัวใจสูงที่สุด เป็นสัญญาณว่าระบบประสาทส่วนที่ทำให้สงบกำลังทำงาน งานทบทวนพบว่าการหายใจช้าสัมพันธ์กับความวิตกกังวลที่ลดลง (Zaccaro ค.ศ. 2018)') },
+  { id: 'sigh', icon: 'wind', tags: ['proof'], phases: [['in', 2], ['top', 1], ['out', 6]], t: tri('Циклический вздох', 'Cyclic sighing', 'ถอนหายใจเป็นรอบ'),
+    d: tri('Вдох, короткий довдох и очень длинный выдох ртом. В исследовании Стэнфорда пять минут в день месяц подряд подняли настроение сильнее, чем такая же по времени медитация осознанности (Balban, 2023).', 'An in-breath, a short top-up and a very long out-breath through the mouth. In a Stanford study, five minutes a day for a month lifted mood more than the same time of mindfulness meditation (Balban, 2023).', 'หายใจเข้า เติมลมอีกนิด แล้วหายใจออกทางปากยาว ๆ งานวิจัยของสแตนฟอร์ดพบว่าทำวันละห้านาทีติดต่อกันหนึ่งเดือน ช่วยให้อารมณ์ดีขึ้นมากกว่าการฝึกสติเวลาเท่ากัน (Balban ค.ศ. 2023)') },
+  { id: 'box', icon: 'square', tags: ['classic'], phases: [['in', 4], ['hold', 4], ['out', 4], ['hold', 4]], t: tri('Квадратное дыхание', 'Box breathing', 'หายใจแบบสี่เหลี่ยม'),
+    d: tri('По четыре секунды на вдох, задержку, выдох и задержку. Его используют военные и спасатели перед стрессом; отдельных крупных исследований именно этой схемы мало, но она медленная и простая.', 'Four seconds each for in, hold, out and hold. Soldiers and rescuers use it before stress; there are few large studies of this exact pattern, but it is slow and simple.', 'สี่วินาทีสำหรับหายใจเข้า กลั้น หายใจออก และกลั้น ทหารและหน่วยกู้ภัยใช้ก่อนเจอสถานการณ์ตึงเครียด งานวิจัยใหญ่ของรูปแบบนี้โดยตรงยังมีน้อย แต่ช้าและง่าย') },
+  { id: '478', icon: 'moon-star', tags: ['debate'], phases: [['in', 4], ['hold', 7], ['out', 8]], t: tri('4-7-8', '4-7-8', '4-7-8'),
+    d: tri('Популярная «техника для засыпания» доктора Эндрю Вейла. Медленная и с длинным выдохом — но громкие обещания «уснуть за минуту» исследованиями не подтверждены. Долгая задержка подходит не всем.', 'Dr Andrew Weil’s popular “sleep technique”. Slow and with a long out-breath, but the big “asleep in a minute” promises are not backed by research. The long hold does not suit everyone.', 'เทคนิคช่วยนอนที่ ดร.แอนดรูว์ ไวล์ ทำให้เป็นที่นิยม ช้าและหายใจออกยาว แต่คำโฆษณาว่าหลับได้ในหนึ่งนาทียังไม่มีงานวิจัยรองรับ การกลั้นนานอาจไม่เหมาะกับทุกคน') },
+];
+const BR = Object.fromEntries(BREATHS.map(b => [b.id, b]));
+let brMin = +store.get('md-brmin', 3);
+let tmMin = +store.get('md-tmmin', 10), tmIv = +store.get('md-tmiv', 0);
+
+/* ================= SCIENCE ================= */
+const SCIENCE = [
+  { tag: 'proof', t: tri('Тревога, депрессия, боль', 'Anxiety, depression, pain', 'ความวิตก ซึมเศร้า และความเจ็บปวด'),
+    d: tri('Обзор 47 рандомизированных исследований (3515 участников): программы осознанности умеренно снижают тревогу, депрессию и боль — примерно как антидепрессанты в первичной помощи. Но не лучше других активных методов: спорта, терапии.', 'A review of 47 randomised trials (3,515 people): mindfulness programmes moderately reduce anxiety, depression and pain, roughly as much as antidepressants in primary care. But no better than other active treatments such as exercise or therapy.', 'งานทบทวนการทดลองแบบสุ่ม 47 ชิ้น (ผู้เข้าร่วม 3,515 คน) โปรแกรมฝึกสติช่วยลดความวิตก ซึมเศร้า และความเจ็บปวดได้ปานกลาง ใกล้เคียงยาต้านซึมเศร้าในการรักษาปฐมภูมิ แต่ไม่ดีกว่าวิธีอื่นที่ได้ผล เช่น การออกกำลังกายหรือการบำบัด'),
+    src: ['Goyal et al., JAMA Internal Medicine, 2014', 'https://doi.org/10.1001/jamainternmed.2013.13018'] },
+  { tag: 'proof', t: tri('Защита от рецидива депрессии', 'Protection against depressive relapse', 'ป้องกันภาวะซึมเศร้ากลับมา'),
+    d: tri('Данные 9 исследований и 1258 пациентов: у прошедших MBCT риск рецидива в следующие 60 недель на 31% ниже. Сильнее всего помогает тем, у кого симптомы были тяжелее.', 'Pooled data from 9 trials and 1,258 patients: after MBCT the risk of relapse over the next 60 weeks was 31% lower. It helped most those with more severe symptoms.', 'ข้อมูลรวมจาก 9 การทดลอง ผู้ป่วย 1,258 คน หลังเข้าโปรแกรม MBCT ความเสี่ยงที่โรคกลับมาใน 60 สัปดาห์ถัดไปลดลง 31% ช่วยคนที่มีอาการหนักกว่าได้มากที่สุด'),
+    src: ['Kuyken et al., JAMA Psychiatry, 2016', 'https://doi.org/10.1001/jamapsychiatry.2016.0076'] },
+  { tag: 'proof', t: tri('MBSR против эсциталопрама', 'MBSR versus escitalopram', 'MBSR เทียบกับยาเอสซิทาโลแพรม'),
+    d: tri('276 взрослых с тревожными расстройствами: восемь недель MBSR оказались не хуже популярного антидепрессанта. Это не повод бросать лекарства самому — только вместе с врачом.', '276 adults with anxiety disorders: eight weeks of MBSR did no worse than a common antidepressant. That is no reason to stop medication on your own; only with your doctor.', 'ผู้ใหญ่ 276 คนที่มีโรควิตกกังวล MBSR แปดสัปดาห์ได้ผลไม่ด้อยกว่ายาต้านซึมเศร้าที่ใช้กันทั่วไป แต่ไม่ใช่เหตุผลให้หยุดยาเอง ต้องปรึกษาแพทย์เท่านั้น'),
+    src: ['Hoge et al., JAMA Psychiatry, 2023', 'https://doi.org/10.1001/jamapsychiatry.2022.3679'] },
+  { tag: 'data', t: tri('Блуждающий ум — несчастный ум', 'A wandering mind is an unhappy mind', 'ใจที่ล่องลอยคือใจที่ไม่มีความสุข'),
+    d: tri('Приложение спрашивало 2250 человек в случайные моменты дня, чем они заняты. В 46,9% случаев мысли были не о текущем деле — и в эти моменты люди оценивали себя менее счастливыми.', 'An app asked 2,250 people at random moments what they were doing. 46.9% of the time their mind was elsewhere, and at those moments they rated themselves less happy.', 'แอปสุ่มถามคน 2,250 คนว่ากำลังทำอะไร 46.9% ของเวลา ใจไม่ได้อยู่กับสิ่งที่ทำ และในช่วงนั้นพวกเขาให้คะแนนความสุขต่ำกว่า'),
+    src: ['Killingsworth & Gilbert, Science, 2010', 'https://doi.org/10.1126/science.1192439'] },
+  { tag: 'data', t: tri('13 минут в день', '13 minutes a day', 'วันละ 13 นาที'),
+    d: tri('Новички восемь недель медитировали по 13 минут в день: улучшились внимание, рабочая память, узнавание и настроение. Через четыре недели эффекта ещё не было — нужна регулярность. Выборка небольшая (42 человека).', 'Beginners meditated 13 minutes a day for eight weeks: attention, working memory, recognition and mood improved. After four weeks there was no effect yet, so consistency matters. The sample was small (42 people).', 'ผู้เริ่มต้นนั่งสมาธิวันละ 13 นาทีเป็นเวลาแปดสัปดาห์ สมาธิ ความจำใช้งาน การจำได้ และอารมณ์ดีขึ้น แต่หลังสี่สัปดาห์ยังไม่เห็นผล ความสม่ำเสมอจึงสำคัญ กลุ่มตัวอย่างเล็ก (42 คน)'),
+    src: ['Basso et al., Behavioural Brain Research, 2019', 'https://doi.org/10.1016/j.bbr.2018.08.023'] },
+  { tag: 'data', t: tri('Эффект за несколько дней', 'Effects within days', 'เห็นผลในไม่กี่วัน'),
+    d: tri('Четыре занятия по 20 минут улучшили внимание и рабочую память у новичков (Zeidan, 2010). Пять дней по 20 минут — внимание лучше и кортизола меньше после стресса (Tang, 2007). Короткие исследования, но показывают, что начать можно с малого.', 'Four 20-minute sessions improved beginners’ attention and working memory (Zeidan, 2010). Five days of 20 minutes: better attention and less cortisol after stress (Tang, 2007). Short studies, but they show you can start small.', 'ฝึกสี่ครั้ง ครั้งละ 20 นาที ช่วยให้ผู้เริ่มต้นมีสมาธิและความจำใช้งานดีขึ้น (Zeidan ค.ศ. 2010) ฝึกห้าวัน วันละ 20 นาที สมาธิดีขึ้นและคอร์ติซอลหลังความเครียดน้อยลง (Tang ค.ศ. 2007) เป็นงานวิจัยระยะสั้น แต่แสดงว่าเริ่มจากน้อย ๆ ได้'),
+    src: ['Zeidan et al., Consciousness and Cognition, 2010', 'https://doi.org/10.1016/j.concog.2010.03.014'] },
+  { tag: 'proof', t: tri('Дыхание поднимает настроение', 'Breathing lifts mood', 'การหายใจช่วยให้อารมณ์ดี'),
+    d: tri('111 человек месяц делали по 5 минут в день: циклический вздох, квадратное дыхание, быстрое дыхание или медитацию осознанности. Дыхательные практики — особенно с длинным выдохом — подняли настроение сильнее медитации.', '111 people spent 5 minutes a day for a month on cyclic sighing, box breathing, fast breathing or mindfulness meditation. The breathing practices, especially with a long out-breath, lifted mood more than meditation.', 'คน 111 คนฝึกวันละ 5 นาทีเป็นเวลาหนึ่งเดือน แบ่งเป็นถอนหายใจเป็นรอบ หายใจสี่เหลี่ยม หายใจเร็ว หรือฝึกสติ การหายใจ โดยเฉพาะแบบหายใจออกยาว ช่วยให้อารมณ์ดีขึ้นมากกว่าการฝึกสติ'),
+    src: ['Balban et al., Cell Reports Medicine, 2023', 'https://doi.org/10.1016/j.xcrm.2022.100895'] },
+  { tag: 'data', t: tri('Сон', 'Sleep', 'การนอนหลับ'),
+    d: tri('18 исследований, 1654 человека: медитация осознанности умеренно улучшает качество сна — заметно лучше, чем ничего, и примерно наравне с другими проверенными подходами.', '18 trials, 1,654 people: mindfulness meditation moderately improves sleep quality, clearly better than nothing and roughly on a par with other proven approaches.', '18 การทดลอง 1,654 คน การฝึกสติช่วยให้คุณภาพการนอนดีขึ้นปานกลาง ดีกว่าไม่ทำอะไรชัดเจน และใกล้เคียงกับวิธีอื่นที่พิสูจน์แล้ว'),
+    src: ['Rusch et al., Annals of the NY Academy of Sciences, 2019', 'https://doi.org/10.1111/nyas.13996'] },
+  { tag: 'data', t: tri('Доброта копится', 'Kindness adds up', 'ความเมตตาสะสมได้'),
+    d: tri('Семь недель практики метты: у людей прибавилось хороших эмоций в обычные дни, а вместе с ними — ощущения смысла, поддержки и удовлетворённости жизнью.', 'Seven weeks of loving-kindness practice: people felt more positive emotions on ordinary days, and with them more purpose, support and life satisfaction.', 'ฝึกแผ่เมตตาเจ็ดสัปดาห์ ผู้คนมีอารมณ์ดีในวันธรรมดามากขึ้น พร้อมกับรู้สึกมีความหมาย มีคนสนับสนุน และพอใจในชีวิตมากขึ้น'),
+    src: ['Fredrickson et al., JPSP, 2008', 'https://doi.org/10.1037/a0013262'] },
+  { tag: 'data', t: tri('Боль ощущается иначе', 'Pain feels different', 'ความเจ็บปวดรู้สึกต่างไป'),
+    d: tri('После четырёх дней тренировки участники в томографе оценивали ожог горячей пластиной как на 57% менее неприятный и на 40% менее сильный, пока медитировали.', 'After four days of training, people in a scanner rated a heat stimulus 57% less unpleasant and 40% less intense while meditating.', 'หลังฝึกสี่วัน ผู้เข้าร่วมในเครื่องสแกนสมองประเมินความร้อนที่ผิวว่าไม่สบายน้อยลง 57% และรุนแรงน้อยลง 40% ขณะทำสมาธิ'),
+    src: ['Zeidan et al., Journal of Neuroscience, 2011', 'https://doi.org/10.1523/JNEUROSCI.5791-10.2011'] },
+  { tag: 'data', t: tri('Обычным людям — без чудес', 'For ordinary people: no miracles', 'สำหรับคนทั่วไป ไม่มีปาฏิหาริย์'),
+    d: tri('136 исследований, 11 605 взрослых вне клиники: осознанность снижает тревогу, депрессию и стресс по сравнению с бездействием — но не лучше других полезных занятий, например спорта.', '136 trials, 11,605 adults outside clinics: mindfulness reduces anxiety, depression and stress compared with doing nothing, but no more than other good activities such as exercise.', '136 การทดลอง ผู้ใหญ่ 11,605 คนนอกคลินิก การฝึกสติลดความวิตก ซึมเศร้า และความเครียดได้เมื่อเทียบกับไม่ทำอะไร แต่ไม่มากกว่ากิจกรรมดี ๆ อื่น เช่น การออกกำลังกาย'),
+    src: ['Galante et al., PLOS Medicine, 2021', 'https://doi.org/10.1371/journal.pmed.1003481'] },
+  { tag: 'debate', t: tri('«Медитация перестраивает мозг»?', '“Meditation rewires the brain”?', 'สมาธิเปลี่ยนโครงสร้างสมอง จริงไหม'),
+    d: tri('Знаменитая работа 2011 года нашла больше серого вещества после MBSR — у 16 человек. Повтор на 218 участниках в двух рандомизированных исследованиях структурных изменений за восемь недель не нашёл (Kral, 2022).', 'A famous 2011 paper found more grey matter after MBSR, in 16 people. A repeat with 218 participants in two randomised trials found no structural change after eight weeks (Kral, 2022).', 'งานวิจัยดังปี 2011 พบเนื้อสมองสีเทาเพิ่มขึ้นหลัง MBSR แต่ศึกษาเพียง 16 คน การทำซ้ำกับ 218 คนในการทดลองแบบสุ่มสองชิ้น ไม่พบการเปลี่ยนแปลงโครงสร้างใน 8 สัปดาห์ (Kral ค.ศ. 2022)'),
+    src: ['Kral et al., Science Advances, 2022', 'https://doi.org/10.1126/sciadv.abk3316'] },
+  { tag: 'data', t: tri('Тише «внутренний болтун»', 'A quieter inner chatter', 'เสียงพูดในหัวเบาลง'),
+    d: tri('У опытных медитирующих сеть пассивного режима — та, что включается при блуждании ума и мыслях о себе, — во время практики была менее активна. Это сравнение групп, а не доказательство, что так сделала медитация.', 'In experienced meditators the default mode network, active during mind-wandering and self-focused thought, was less active during practice. This compares groups; it does not prove meditation caused it.', 'ในผู้ที่ฝึกสมาธิมานาน เครือข่ายโหมดพื้นฐานของสมอง ที่ทำงานตอนใจล่องลอยและคิดเรื่องตัวเอง ทำงานน้อยลงขณะฝึก เป็นการเปรียบเทียบกลุ่ม ยังไม่ได้พิสูจน์ว่าสมาธิเป็นสาเหตุ'),
+    src: ['Brewer et al., PNAS, 2011', 'https://doi.org/10.1073/pnas.1112029108'] },
+  { tag: 'debate', t: tri('Гамма-волны монахов', 'Monks’ gamma waves', 'คลื่นแกมมาของพระ'),
+    d: tri('Восемь тибетских монахов с 10–50 тысячами часов практики показали мощные гамма-ритмы во время медитации сострадания. Яркий результат — но восемь человек и десятилетия практики; к десяти минутам в приложении это не относится.', 'Eight Tibetan monks with 10,000–50,000 hours of practice showed strong gamma rhythms during compassion meditation. A striking result, but eight people and decades of practice; it says nothing about ten minutes in an app.', 'พระทิเบตแปดรูปที่ฝึกมา 10,000–50,000 ชั่วโมงแสดงคลื่นแกมมาแรงขณะเจริญกรุณา ผลน่าทึ่ง แต่มีแค่แปดคนและฝึกมาหลายสิบปี ไม่ได้บอกอะไรเกี่ยวกับการฝึกสิบนาทีในแอป'),
+    src: ['Lutz et al., PNAS, 2004', 'https://doi.org/10.1073/pnas.0407401101'] },
+  { tag: 'debate', t: tri('Давление и сердце', 'Blood pressure and the heart', 'ความดันและหัวใจ'),
+    d: tri('Американская кардиологическая ассоциация: медитация «может рассматриваться» как дополнение для снижения давления и сердечного риска — польза возможна, но данных мало. Лекарства и образ жизни она не заменяет.', 'The American Heart Association: meditation “may be considered” as an add-on to lower blood pressure and cardiovascular risk; a benefit is possible but the data are limited. It does not replace medication or lifestyle.', 'สมาคมโรคหัวใจอเมริกัน: อาจพิจารณาใช้สมาธิเป็นส่วนเสริมเพื่อลดความดันและความเสี่ยงโรคหัวใจ อาจมีประโยชน์ แต่ข้อมูลยังน้อย ไม่ได้ทดแทนยาหรือการปรับวิถีชีวิต'),
+    src: ['Levine et al., JAHA, 2017', 'https://doi.org/10.1161/JAHA.117.002218'] },
+  { tag: 'debate', t: tri('Осознанность в школах', 'Mindfulness in schools', 'การฝึกสติในโรงเรียน'),
+    d: tri('Крупнейшее исследование MYRIAD: 8376 подростков в 84 школах Великобритании. Уроки осознанности не улучшили самочувствие по сравнению с обычными уроками о здоровье.', 'The largest study, MYRIAD: 8,376 teenagers in 84 UK schools. Mindfulness lessons did not improve wellbeing compared with usual health lessons.', 'งานวิจัยใหญ่ที่สุด MYRIAD วัยรุ่น 8,376 คนใน 84 โรงเรียนในสหราชอาณาจักร บทเรียนฝึกสติไม่ได้ทำให้สุขภาวะดีขึ้นกว่าบทเรียนสุขภาพตามปกติ'),
+    src: ['Kuyken et al., Evidence-Based Mental Health, 2022', 'https://doi.org/10.1136/ebmental-2021-300396'] },
+  { tag: 'debate', t: tri('Осторожно, хайп', 'Mind the hype', 'ระวังกระแสเกินจริง'),
+    d: tri('Пятнадцать учёных, сами изучающие медитацию: «осознанность» понимают по-разному, исследования часто маленькие и без активного контроля, СМИ преувеличивают. Читайте заголовки с поправкой.', 'Fifteen scientists who study meditation themselves: “mindfulness” means different things, studies are often small and lack active controls, and the media exaggerate. Read the headlines with care.', 'นักวิทยาศาสตร์สิบห้าคนที่วิจัยเรื่องสมาธิเอง เตือนว่าคำว่าสติถูกนิยามต่างกัน งานวิจัยมักเล็กและไม่มีกลุ่มเปรียบเทียบที่ทำกิจกรรมอื่น สื่อมักพูดเกินจริง อ่านพาดหัวข่าวอย่างระวัง'),
+    src: ['Van Dam et al., Perspectives on Psychological Science, 2018', 'https://doi.org/10.1177/1745691617709589'] },
+];
+
+/* ================= TRADITIONS ================= */
+const TRADITIONS = [
+  { icon: 'wind', tags: ['ancient'], era: tri('Палийский канон, ~V в. до н. э.', 'Pali Canon, ~5th c. BCE', 'พระไตรปิฎกบาลี ราว 500 ปีก่อน ค.ศ.'), t: tri('Анапанасати', 'Ānāpānasati', 'อานาปานสติ'),
+    d: tri('Осознанность вдоха и выдоха в 16 шагах — от «длинный вдох — знаю, что длинный» до спокойствия ума (Анапанасати-сутта, MN 118). Основа почти всех дыхательных медитаций.', 'Mindfulness of the in- and out-breath in 16 steps, from “breathing in long, I know I breathe in long” to a calm mind (Ānāpānasati Sutta, MN 118). The root of almost every breath meditation.', 'การมีสติรู้ลมหายใจเข้าออก 16 ขั้น ตั้งแต่ หายใจเข้ายาวก็รู้ว่ายาว จนถึงจิตสงบ (อานาปานสติสูตร ม.อุ. 118) รากฐานของสมาธิกับลมหายใจแทบทุกแบบ') },
+  { icon: 'heart', tags: ['ancient'], era: tri('Метта-сутта; Буддхагхоса, V в.', 'Metta Sutta; Buddhaghosa, 5th c.', 'กรณียเมตตสูตร พระพุทธโฆสะ คริสต์ศตวรรษที่ 5'), t: tri('Метта', 'Mettā', 'เมตตา'),
+    d: tri('Доброжелательность по кругу: себе, другу, нейтральному, трудному человеку, всем. Порядок расписан в «Висуддхимагге» — и почти без изменений живёт в современных программах.', 'Goodwill in widening circles: yourself, a friend, a neutral person, a difficult one, everyone. The order is set out in the Visuddhimagga and lives on almost unchanged in modern programmes.', 'ความปรารถนาดีเป็นวงกว้างออกไป ตัวเอง เพื่อน คนกลาง ๆ คนที่ยาก และทุกชีวิต ลำดับนี้อยู่ในคัมภีร์วิสุทธิมรรค และแทบไม่เปลี่ยนในโปรแกรมสมัยใหม่') },
+  { icon: 'trees', tags: ['ancient'], era: tri('Таиланд, XX век', 'Thailand, 20th c.', 'ประเทศไทย คริสต์ศตวรรษที่ 20'), t: tri('Тайская лесная традиция', 'Thai Forest Tradition', 'พระป่าสายหลวงปู่มั่น'),
+    d: tri('Аджан Ман, Аджан Чаа: на вдохе про себя «Бут», на выдохе «тхо» — พุท-โธ, «пробуждённый». И ходьба จงกรม по дорожке между деревьями. Отсюда вышли многие западные учителя.', 'Ajahn Mun, Ajahn Chah: silently “Bud” on the in-breath, “dho” on the out-breath, พุท-โธ, “awake”. Plus walking จงกรม on a path between the trees. Many Western teachers came from here.', 'หลวงปู่มั่น หลวงพ่อชา หายใจเข้า พุท หายใจออก โธ และเดินจงกรมบนทางระหว่างต้นไม้ ครูสมาธิชาวตะวันตกหลายคนก็มาจากสายนี้') },
+  { icon: 'circle', tags: ['ancient'], era: tri('Догэн, Япония, XIII век', 'Dōgen, Japan, 13th c.', 'โดเง็น ญี่ปุ่น คริสต์ศตวรรษที่ 13'), t: tri('Дзадзэн', 'Zazen', 'ซาเซ็น'),
+    d: tri('«Просто сидеть»: устойчивая поза, взгляд вниз, ничего не добиваться. Новичкам дают счёт дыхания до десяти — сусокукан, а между сидениями — медленную ходьбу кинхин.', '“Just sitting”: a steady posture, eyes lowered, nothing to achieve. Beginners count breaths to ten (susokukan) and walk slowly between sittings (kinhin).', 'นั่งเฉย ๆ ท่ามั่นคง สายตาลง ไม่ต้องไปให้ถึงอะไร ผู้เริ่มต้นนับลมหายใจถึงสิบ และเดินช้า ๆ ระหว่างรอบนั่ง') },
+  { icon: 'sun', tags: ['ancient'], era: tri('Патанджали, ~II в. до н. э. – V в. н. э.', 'Patañjali, ~2nd c. BCE – 5th c. CE', 'ปตัญชลี ราว 200 ปีก่อน ค.ศ. ถึงคริสต์ศตวรรษที่ 5'), t: tri('Йога-сутры', 'Yoga Sutras', 'โยคสูตร'),
+    d: tri('«Йога — это успокоение колебаний ума» (1.2). Сосредоточение (дхарана) переходит в непрерывное созерцание (дхьяна). Позы в этом тексте — лишь способ удобно сидеть.', '“Yoga is the stilling of the fluctuations of the mind” (1.2). Concentration (dhāraṇā) flows into unbroken meditation (dhyāna). In this text, posture is only a way to sit comfortably.', 'โยคะคือการทำให้ความแปรปรวนของจิตสงบลง (1.2) การตั้งใจจดจ่อ (ธารณา) กลายเป็นการเพ่งต่อเนื่อง (ธยานะ) ในตำรานี้ ท่าทางเป็นแค่วิธีนั่งให้สบาย') },
+  { icon: 'church', tags: ['ancient'], era: tri('Афон, XIV век; «Добротолюбие»', 'Mount Athos, 14th c.; the Philokalia', 'ภูเขาอาทอส คริสต์ศตวรรษที่ 14'), t: tri('Исихазм', 'Hesychasm', 'เฮซีคาสม์'),
+    d: tri('Православная практика «безмолвия»: Иисусова молитва в ритме дыхания, сидя, со склонённой головой. В Россию пришла через перевод «Добротолюбия» Паисия Величковского (1793).', 'The Orthodox practice of “stillness”: the Jesus Prayer in rhythm with the breath, seated, head bowed. It reached Russia through Paisius Velichkovsky’s translation of the Philokalia (1793).', 'การภาวนาแห่งความเงียบของคริสต์ออร์ทอดอกซ์ สวดบทภาวนาพระเยซูตามจังหวะลมหายใจ นั่งก้มศีรษะ เข้าสู่รัสเซียผ่านการแปลหนังสือฟิโลคาเลีย (ค.ศ. 1793)') },
+  { icon: 'scroll', tags: ['ancient'], era: tri('Сенека, I век', 'Seneca, 1st c.', 'เซเนกา คริสต์ศตวรรษที่ 1'), t: tri('Вечерний разбор стоиков', 'The Stoic evening review', 'ทบทวนวันแบบสโตอิก'),
+    d: tri('Перед сном пересмотреть день: что сделал хорошо, где ошибся, что исправить — без самобичевания («О гневе», III.36). Марк Аврелий делал записи «к себе» утром.', 'Before sleep, review the day: what went well, where you slipped, what to fix, without self-punishment (On Anger, III.36). Marcus Aurelius wrote notes “to himself” in the morning.', 'ก่อนนอน ทบทวนวันว่าทำอะไรดี พลาดตรงไหน จะแก้อะไร โดยไม่ลงโทษตัวเอง (ว่าด้วยความโกรธ III.36) มาร์คัส ออเรลิอัสเขียนบันทึกถึงตัวเองในตอนเช้า') },
+  { icon: 'thermometer-sun', tags: ['classic'], era: tri('Иоганнес Шульц, 1932', 'Johannes Schultz, 1932', 'โยฮันเนส ชูลทซ์ ค.ศ. 1932'), t: tri('Аутогенная тренировка', 'Autogenic training', 'การฝึกออโตเจนิก'),
+    d: tri('Немецкий психиатр: «правая рука тяжёлая… тёплая». Формулы самовнушения для расслабления; в СССР — «аутотренинг». Мета-анализы показывают эффект при тревоге и напряжении.', 'A German psychiatrist: “my right arm is heavy… warm”. Self-suggestion formulas for relaxation; in the USSR, “autotraining”. Meta-analyses show effects on anxiety and tension.', 'จิตแพทย์ชาวเยอรมัน แขนขวาหนัก… อุ่น ประโยคเสนอแนะตัวเองเพื่อผ่อนคลาย ในสหภาพโซเวียตเรียกว่าออโตเทรนนิง งานวิเคราะห์อภิมานพบผลต่อความวิตกและความตึงเครียด') },
+  { icon: 'stethoscope', tags: ['classic'], era: tri('Герберт Бенсон, Гарвард, 1975', 'Herbert Benson, Harvard, 1975', 'เฮอร์เบิร์ต เบนสัน ฮาร์วาร์ด ค.ศ. 1975'), t: tri('Реакция релаксации', 'The relaxation response', 'การตอบสนองแบบผ่อนคลาย'),
+    d: tri('Кардиолог убрал из медитации религию: тихое место, повторяемое слово, пассивное отношение к мыслям. Показал, что пульс, дыхание и давление при этом снижаются.', 'A cardiologist stripped meditation of religion: a quiet place, a repeated word, a passive attitude to thoughts. He showed that heart rate, breathing and blood pressure go down.', 'แพทย์โรคหัวใจตัดเรื่องศาสนาออกจากสมาธิ เหลือที่เงียบ คำที่ท่องซ้ำ และท่าทีปล่อยวางต่อความคิด แล้วแสดงว่าชีพจร การหายใจ และความดันลดลง') },
+  { icon: 'hospital', tags: ['classic', 'proof'], era: tri('Джон Кабат-Зинн, 1979', 'Jon Kabat-Zinn, 1979', 'จอน คาแบต-ซินน์ ค.ศ. 1979'), t: tri('MBSR и MBCT', 'MBSR and MBCT', 'MBSR และ MBCT'),
+    d: tri('Восемь недель в клинике стресса Массачусетского университета: сканирование тела, сидячая практика, мягкая йога. В 2002 году на её основе сделали MBCT против рецидивов депрессии — сейчас её рекомендует NICE.', 'Eight weeks at the University of Massachusetts stress clinic: body scan, sitting practice, gentle yoga. In 2002 it became the basis of MBCT for depressive relapse, now recommended by NICE.', 'แปดสัปดาห์ที่คลินิกคลายเครียดของมหาวิทยาลัยแมสซาชูเซตส์ สำรวจร่างกาย นั่งสมาธิ โยคะเบา ๆ ปี 2002 กลายเป็นพื้นฐานของ MBCT สำหรับป้องกันซึมเศร้ากลับมา ปัจจุบัน NICE แนะนำ') },
+];
+const TIPS = [
+  ['clock', tri('Привяжите к привычке: после утреннего кофе, перед сном, сразу как сели в поезд. Одно и то же время работает лучше силы воли.', 'Tie it to a habit: after morning coffee, before bed, as soon as you sit on the train. A fixed time beats willpower.', 'ผูกไว้กับกิจวัตร หลังกาแฟตอนเช้า ก่อนนอน หรือทันทีที่นั่งบนรถไฟ เวลาเดิมทุกวันได้ผลกว่าการฝืนใจ')],
+  ['timer', tri('Начните с 3–5 минут. Каждый день по пять лучше, чем раз в неделю сорок.', 'Start with 3–5 minutes. Five every day beats forty once a week.', 'เริ่มที่ 3–5 นาที ทุกวันวันละห้านาทีดีกว่าสัปดาห์ละครั้งครั้งละสี่สิบนาที')],
+  ['repeat', tri('Отвлеклись — это не провал. Каждое возвращение к дыханию — повторение, как подход в зале.', 'Getting distracted is not failure. Each return to the breath is a rep, like a set at the gym.', 'ใจลอยไม่ใช่ความล้มเหลว ทุกครั้งที่พาใจกลับมาคือการฝึกหนึ่งครั้ง เหมือนยกน้ำหนักหนึ่งเซ็ต')],
+  ['armchair', tri('Подойдёт обычный стул: стопы на полу, спина держится сама, руки на бёдрах. Лотос не нужен.', 'An ordinary chair is fine: feet on the floor, back holding itself, hands on your thighs. No lotus needed.', 'เก้าอี้ธรรมดาก็ได้ เท้าวางบนพื้น หลังตั้งเอง มือวางบนต้นขา ไม่ต้องนั่งขัดสมาธิเพชร')],
+  ['eye', tri('Глаза можно не закрывать: мягкий взгляд вниз, в пол в метре-двух перед собой.', 'You do not have to close your eyes: a soft gaze down at the floor a metre or two ahead.', 'ไม่ต้องหลับตาก็ได้ มองต่ำเบา ๆ ไปที่พื้นข้างหน้าราวหนึ่งถึงสองเมตร')],
+  ['life-buoy', tri('Если становится тяжело — откройте глаза, перейдите к звукам или ходьбе, остановитесь. Это нормально и правильно.', 'If it gets hard, open your eyes, switch to sounds or walking, or stop. That is normal and right.', 'ถ้ารู้สึกหนัก ลืมตา เปลี่ยนไปฟังเสียงหรือเดิน หรือหยุดเลย เป็นเรื่องปกติและถูกต้อง')],
+];
+
+/* ================= SAFETY & MYTHS ================= */
+const SAFETY = [
+  { tag: 'myth', icon: 'cloud-off', t: tri('«Нужно очистить ум от мыслей»', '“You have to empty your mind”', 'ต้องทำใจให้ว่างจากความคิด'),
+    d: tri('Мысли будут — у всех, всегда. Навык не в том, чтобы их не было, а в том, чтобы заметить и вернуться. Сто отвлечений и сто возвращений — отличная практика.', 'Thoughts will come, for everyone, always. The skill is not having none but noticing and returning. A hundred drifts and a hundred returns is great practice.', 'ความคิดจะมาเสมอ สำหรับทุกคน ทักษะไม่ใช่การไม่มีความคิด แต่คือการรู้ตัวแล้วกลับมา หลุดร้อยครั้ง กลับมาร้อยครั้ง คือการฝึกที่ดีมาก') },
+  { tag: 'myth', icon: 'church', t: tri('«Это религия»', '“It is a religion”', 'เป็นเรื่องศาสนา'),
+    d: tri('Корни у практик религиозные, но MBSR, MBCT и большинство исследований — светские. Можно практиковать с любыми взглядами или без них.', 'The roots are religious, but MBSR, MBCT and most research are secular. You can practise with any beliefs or none.', 'รากเหง้ามาจากศาสนา แต่ MBSR, MBCT และงานวิจัยส่วนใหญ่ไม่เกี่ยวกับศาสนา ฝึกได้ไม่ว่าจะมีความเชื่อแบบไหนหรือไม่มีเลย') },
+  { tag: 'myth', icon: 'pill', t: tri('«Заменяет лечение»', '“It replaces treatment”', 'ใช้แทนการรักษาได้'),
+    d: tri('Медитация может быть хорошим дополнением, но не замена врачу, психотерапии или лекарствам. Отменять препараты — только вместе с врачом.', 'Meditation can be a good addition, but not a replacement for a doctor, therapy or medication. Stop medication only together with your doctor.', 'สมาธิเป็นส่วนเสริมที่ดีได้ แต่ไม่ใช่สิ่งทดแทนแพทย์ การบำบัด หรือยา จะหยุดยาต้องปรึกษาแพทย์เท่านั้น') },
+  { tag: 'debate', icon: 'triangle-alert', t: tri('Побочные эффекты бывают', 'Side effects do happen', 'ผลข้างเคียงเกิดขึ้นได้'),
+    d: tri('Обзор 83 исследований (6703 человека): около 8% сообщали о нежелательных эффектах — чаще всего тревоге и подавленности. Опросы практикующих описывают страх, ощущение нереальности, всплывшие тяжёлые воспоминания (Lindahl, 2017).', 'A review of 83 studies (6,703 people): about 8% reported unwanted effects, most often anxiety and low mood. Interviews with practitioners describe fear, a sense of unreality and resurfacing painful memories (Lindahl, 2017).', 'งานทบทวน 83 ชิ้น (6,703 คน) ราว 8% รายงานผลที่ไม่พึงประสงค์ ส่วนใหญ่เป็นความวิตกและความหดหู่ การสัมภาษณ์ผู้ฝึกพบความกลัว ความรู้สึกไม่จริง และความทรงจำเจ็บปวดที่ผุดขึ้นมา (Lindahl ค.ศ. 2017)'),
+    src: ['Farias et al., Acta Psychiatrica Scandinavica, 2020', 'https://doi.org/10.1111/acps.13225'] },
+  { tag: 'proof', icon: 'shield-check', t: tri('Если накрыло', 'If it gets overwhelming', 'ถ้ารู้สึกท่วมท้น'),
+    d: tri('Откройте глаза, почувствуйте стопы на полу, назовите пять предметов вокруг. Сократите практики, выберите внешние опоры — звуки, ходьбу. Если не проходит — обратитесь к специалисту.', 'Open your eyes, feel your feet on the floor, name five things around you. Shorten practice and choose outward anchors: sounds, walking. If it does not pass, see a professional.', 'ลืมตา รู้สึกเท้าบนพื้น บอกชื่อของห้าอย่างรอบตัว ฝึกให้สั้นลง เลือกหลักยึดภายนอก เช่น เสียงหรือการเดิน ถ้าไม่ดีขึ้น ปรึกษาผู้เชี่ยวชาญ'),
+    src: ['Lindahl et al., PLOS ONE, 2017', 'https://doi.org/10.1371/journal.pone.0176239'] },
+  { tag: 'debate', icon: 'user-round-check', t: tri('Кому — с поддержкой', 'Who should have support', 'ใครควรมีผู้ดูแล'),
+    d: tri('ПТСР и тяжёлая травма, психоз или биполярное расстройство в прошлом, тяжёлая депрессия прямо сейчас: долгие и интенсивные практики, особенно ретриты, — только вместе со специалистом. Короткие практики с открытыми глазами обычно безопаснее.', 'PTSD or severe trauma, a past psychosis or bipolar disorder, severe depression right now: long, intensive practice, especially retreats, only with a professional. Short practices with eyes open are usually safer.', 'ผู้มีภาวะ PTSD หรือบาดแผลทางใจรุนแรง เคยมีภาวะโรคจิตหรือไบโพลาร์ หรือกำลังซึมเศร้าหนัก การฝึกยาวและเข้มข้น โดยเฉพาะการเข้าคอร์สปฏิบัติธรรม ควรมีผู้เชี่ยวชาญดูแล การฝึกสั้น ๆ แบบลืมตามักปลอดภัยกว่า') },
+  { tag: 'myth', icon: 'hourglass', t: tri('«Чем дольше, тем лучше»', '“Longer is always better”', 'ยิ่งนานยิ่งดี'),
+    d: tri('Для начала важнее регулярность: в исследованиях эффект давали 10–20 минут в день, а не марафоны. Резко увеличивать время — частая причина бросить.', 'At the start, regularity matters more: studies saw effects from 10–20 minutes a day, not marathons. Jumping to long sessions is a common reason to quit.', 'ช่วงแรกความสม่ำเสมอสำคัญกว่า งานวิจัยเห็นผลจากวันละ 10–20 นาที ไม่ใช่มาราธอน การเพิ่มเวลาเร็วเกินไปเป็นเหตุผลที่คนเลิกบ่อย') },
+  { tag: 'debate', icon: 'smartphone', t: tri('Приложения работают?', 'Do apps work?', 'แอปได้ผลไหม'),
+    d: tri('Небольшие исследования приложений показывают умеренное снижение стресса за несколько недель — но многие люди бросают через пару недель. Лучшее приложение то, которым вы пользуетесь.', 'Small studies of apps show a moderate drop in stress over a few weeks, but many people stop within a couple of weeks. The best app is the one you actually use.', 'งานวิจัยเล็ก ๆ เกี่ยวกับแอปพบความเครียดลดลงปานกลางในไม่กี่สัปดาห์ แต่หลายคนเลิกใช้ภายในสองสามสัปดาห์ แอปที่ดีที่สุดคือแอปที่คุณใช้จริง') },
+];
+
+/* ================= CROSS-PROMO ================= */
+const SITES = [
+  { url: 'https://brain.dateonymous.com/', name: ['Brain', 'Fast'], icon: 'zap', t: tri('Тренажёры мозга', 'Brain trainers', 'เกมฝึกสมอง'),
+    d: tri('Память, скорость мышления и внимание: игры на очки со статистикой и стартер на 5 минут перед учёбой.', 'Memory, thinking speed and attention: scored games with stats and a 5-minute starter before study.', 'ความจำ ความเร็วในการคิด และสมาธิ เกมเก็บคะแนนพร้อมสถิติ และสตาร์ตเตอร์ 5 นาทีก่อนเรียน') },
+  { url: 'https://thai.dateonymous.com/', name: ['Thai', 'Fast'], glyph: 'ก', t: tri('Тайский с нуля', 'Thai from zero', 'ภาษาไทยจากศูนย์'),
+    d: tri('Звуки, тоны, алфавит и живые фразы для кафе, такси и рынка. Пропись тайских букв.', 'Sounds, tones, the alphabet and real phrases for cafés, taxis and markets. Thai letter copybook.', 'เสียง วรรณยุกต์ ตัวอักษร และประโยคที่ใช้จริงในร้านกาแฟ แท็กซี่ และตลาด พร้อมแบบฝึกคัดตัวอักษรไทย') },
+  { url: 'https://eng.dateonymous.com/', name: ['Eng', 'Fast'], glyph: 'Aa', t: tri('Американский английский', 'American English', 'ภาษาอังกฤษแบบอเมริกัน'),
+    d: tri('Звуки, интонация, фразы для кафе, Uber и отеля, этикет и чаевые.', 'Sounds, intonation, phrases for cafés, Uber and hotels, etiquette and tipping.', 'เสียง น้ำเสียง ประโยคสำหรับร้านกาแฟ อูเบอร์ และโรงแรม มารยาท และการให้ทิป') },
+  { url: 'https://sumer.dateonymous.com/', name: ['Sumer', 'Fast'], glyph: '𒀭', t: tri('Шумерский и клинопись', 'Sumerian & cuneiform', 'ภาษาสุเมเรียนและอักษรลิ่ม'),
+    d: tri('Язык первых табличек: клинопись, грамматика и строки из настоящих текстов.', 'The language of the first tablets: cuneiform, grammar and lines from real texts.', 'ภาษาของแผ่นดินเหนียวยุคแรก: อักษรลิ่ม ไวยากรณ์ และข้อความจากต้นฉบับจริง') },
+];
+
+/* ================= STATS ================= */
+const LOG_KEY = 'md:log';
+const log = () => { try { return JSON.parse(store.get(LOG_KEY, '[]')) } catch (e) { return [] } };
+function record(k, sec) { if (sec < 30) return; const l = log(); l.push({ k, s: Math.round(sec), d: Date.now() }); store.set(LOG_KEY, JSON.stringify(l.slice(-1000))) }
+const dayKey = d => { const x = new Date(d); return `${x.getFullYear()}-${x.getMonth() + 1}-${x.getDate()}` };
+// consecutive days with practice, ending today (or yesterday, so the streak survives until today's session)
+function streaks() {
+  const days = new Set(log().map(x => dayKey(x.d)));
+  let best = 0, run = 0, cur = 0;
+  const first = log()[0]?.d ?? Date.now();
+  for (let d = new Date(first); d <= new Date(); d.setDate(d.getDate() + 1)) { run = days.has(dayKey(d)) ? run + 1 : 0; best = Math.max(best, run) }
+  const day = new Date();
+  if (!days.has(dayKey(day))) day.setDate(day.getDate() - 1);
+  while (days.has(dayKey(day))) { cur++; day.setDate(day.getDate() - 1) }
+  return { cur, best };
+}
+const nameOf = k => k === 'timer' ? t('tmName') : L((PR[k] || BR[k]).t);
+
+/* ================= BELL ================= */
+// a singing-bowl strike made of a few inharmonic partials (WebAudio, no files)
+const ac = () => bell.ac || (bell.ac = new (window.AudioContext || window.webkitAudioContext)());
+function bell(times = 1, vol = .22) {
+  try {
+    const a = ac(); a.resume();
+    for (let i = 0; i < times; i++) {
+      const t0 = a.currentTime + i * 2.6;
+      [[1, 1], [2.76, .45], [5.4, .2], [8.93, .08]].forEach(([r, v]) => {
+        const o = a.createOscillator(), g = a.createGain();
+        o.frequency.value = 196 * r; g.gain.setValueAtTime(.0001, t0); g.gain.exponentialRampToValueAtTime(vol * v, t0 + .015); g.gain.exponentialRampToValueAtTime(.0001, t0 + 7 / Math.sqrt(r));
+        o.connect(g).connect(a.destination); o.start(t0); o.stop(t0 + 8);
+      });
+    }
+  } catch (e) {}
+}
+
+/* ================= PLAYER ================= */
+// one session at a time: a guided practice (voice file or on-screen text), a breathing rhythm or the silence timer
+let S = null, wake = null;
+async function keepAwake(on) {
+  try { if (on && 'wakeLock' in navigator) wake = await navigator.wakeLock.request('screen'); else if (!on && wake) { await wake.release(); wake = null } } catch (e) {}
+}
+function openPlayer(kind, id) {
+  stopSession();
+  const item = kind === 'practice' ? PR[id] : kind === 'breath' ? BR[id] : null;
+  S = { kind, id: item ? id : 'timer', item, el: 0, total: kind === 'practice' ? item.min * 60 : (kind === 'breath' ? brMin : tmMin) * 60,
+        iv: kind === 'timer' ? tmIv * 60 : 0, paused: false, started: false, line: -1, phase: -1, bells: 0 };
+  $('#player').classList.remove('hidden'); document.body.classList.add('overflow-hidden');
+  renderPlayer();
+}
+function renderPlayer() {
+  if (!S) return;
+  $('#pIcon').innerHTML = `<i data-lucide="${S.item ? S.item.icon : 'bell'}" class="w-5 h-5"></i>`;
+  $('#pTitle').textContent = nameOf(S.id);
+  const body = $('#pBody');
+  if (S.done) {
+    body.innerHTML = `<div class="text-center fade-up"><span class="mx-auto grid place-items-center w-16 h-16 rounded-full bg-accent/10 text-accent"><i data-lucide="check" class="w-8 h-8"></i></span>
+      <p class="mt-6 text-3xl font-bold text-white">${t('pDone')}</p><p class="mt-3 text-zinc-400">${fill(t('pDoneSub'), { m: `${Math.max(1, Math.round(S.el / 60))} ${t('min')}` })}</p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3"><button data-p="again" class="${btn} border border-white/10 text-white hover:bg-white/5">${t('pAgain')}</button><button data-p="close" class="${btn} bg-accent text-ink-950 hover:brightness-110">${t('pClose')}</button></div></div>`;
+  } else if (!S.started) {
+    body.innerHTML = `<div class="text-center fade-up max-w-md"><div class="mx-auto w-48 h-48 rounded-full border-2 border-accent/40 bg-accent/5 drift"></div>
+      ${S.item ? `<p class="mt-8 text-zinc-400 leading-relaxed">${L(S.item.d)}</p>` : ''}<p class="mt-4 text-sm text-zinc-500">${t('pReady')}</p>
+      <button data-p="go" class="mt-6 ${btn} bg-accent text-ink-950 hover:brightness-110"><i data-lucide="play" class="w-4 h-4"></i>${t('pGo')} · ${mm(S.total)}</button></div>`;
+  } else {
+    body.innerHTML = `<div class="w-full flex flex-col items-center text-center">
+      <div class="h-64 grid place-items-center"><div id="pCircle" class="w-56 h-56 rounded-full border-2 border-accent/50 bg-accent/10 grid place-items-center ${S.kind === 'breath' ? '' : 'drift'}" style="transform:scale(.6)"><span id="pPhase" class="text-lg font-semibold text-white"></span></div></div>
+      <p id="pLine" class="mt-6 min-h-[5rem] max-w-lg text-lg md:text-xl text-zinc-200 leading-relaxed"></p>
+      <div class="mt-6 w-full max-w-sm h-1 rounded-full bg-white/10 overflow-hidden"><div id="pBar" class="h-full bg-accent transition-[width] duration-300" style="width:0"></div></div>
+      <p id="pLeft" class="mt-2 font-mono text-sm text-zinc-500 tabular-nums"></p>
+      <div class="mt-6 flex gap-3"><button data-p="pause" class="${btn} border border-white/10 text-white hover:bg-white/5"><i data-lucide="${S.paused ? 'play' : 'pause'}" class="w-4 h-4"></i>${t(S.paused ? 'pResume' : 'pPause')}</button><button data-p="stop" class="${btn} border border-white/10 text-zinc-400 hover:text-white">${t('pStop')}</button></div></div>`;
+    if (S.kind !== 'breath') $('#pCircle').style.transform = '';
+    S.line = -1; S.phase = -1; tick();
+  }
+  icons();
+}
+function startSession() {
+  const s = S;
+  s.started = true; s.last = performance.now(); bell(); keepAwake(true);
+  // a recording for this language replaces the on-screen script
+  if (s.kind === 'practice') {
+    const a = new Audio(`audio/${lang}/${s.id}.mp3`);
+    a.onloadedmetadata = () => { if (S !== s || s.done) return; s.audio = a; s.total = a.duration; a.currentTime = Math.min(s.el, a.duration); if (!s.paused) a.play().catch(() => {}); s.line = -1 };
+    a.onended = () => S === s && finish();
+    a.load();
+  }
+  s.timer = setInterval(tick, 250);
+  renderPlayer();
+}
+function tick() {
+  const s = S; if (!s || !s.started || s.done) return;
+  const now = performance.now();
+  if (!s.paused) s.el = s.audio ? s.audio.currentTime : s.el + (now - s.last) / 1000;
+  s.last = now;
+  if (s.el >= s.total) return finish();
+  $('#pBar').style.width = `${s.el / s.total * 100}%`;
+  $('#pLeft').textContent = fill(t('pLeft'), { t: mm(Math.ceil(s.total - s.el)) });
+  const line = $('#pLine');
+  if (s.kind === 'practice') {
+    const i = s.audio ? -2 : s.item.script.findLastIndex(([sec]) => sec <= s.el);
+    if (i !== s.line) { s.line = i; line.innerHTML = `<span class="fade-up block">${i === -2 ? `<span class="text-base text-zinc-500">${t('pVoice')}</span>` : L(s.item.script[i][1])}</span>` }
+  } else if (s.kind === 'breath') {
+    const ph = s.item.phases, cyc = ph.reduce((a, p) => a + p[1], 0), n = Math.floor(s.el / cyc);
+    let pos = s.el - n * cyc, i = 0;
+    while (pos >= ph[i][1]) pos -= ph[i++][1];
+    const key = n * 10 + i;
+    if (key !== s.phase) {
+      s.phase = key;
+      const [kind, sec] = ph[i], c = $('#pCircle');
+      const scale = { in: 1, top: 1.08, out: .6 }[kind];
+      c.style.transition = `transform ${sec - pos}s ${kind === 'out' ? 'ease-out' : 'ease-in-out'}`;
+      if (scale) c.style.transform = `scale(${scale})`;
+      $('#pPhase').textContent = t({ in: 'brIn', top: 'brTop', hold: 'brHold', out: 'brOut' }[kind]);
+      if (!line.textContent) line.innerHTML = `<span class="text-base text-zinc-500">${fill(t('brPerMin'), { n: +(60 / cyc).toFixed(1) })}</span>`;
+    }
+  } else if (s.iv && Math.floor(s.el / s.iv) > s.bells) { s.bells++; bell(1, .14) }
+}
+function pause() {
+  const s = S; if (!s || !s.started || s.done) return;
+  s.paused = !s.paused; s.last = performance.now();
+  if (s.audio) s.paused ? s.audio.pause() : s.audio.play().catch(() => {});
+  renderPlayer();
+}
+function finish() {
+  const s = S; clearInterval(s.timer); s.audio?.pause(); s.el = Math.min(s.el, s.total); s.done = true;
+  if (!s.item?.quietEnd) bell(3);
+  record(s.id, s.el); keepAwake(false); renderPlayer(); renderSide();
+}
+function stopSession() {
+  if (!S) return;
+  clearInterval(S.timer); S.audio?.pause();
+  if (S.started && !S.done) { record(S.id, S.el); renderSide() }
+  keepAwake(false); S = null;
+}
+function closePlayer() { stopSession(); $('#player').classList.add('hidden'); document.body.classList.remove('overflow-hidden') }
+$('#pClose').onclick = closePlayer;
+$('#pBody').addEventListener('click', e => {
+  const b = e.target.closest('[data-p]'); if (!b) return;
+  const a = b.dataset.p;
+  if (a === 'go') startSession(); else if (a === 'pause') pause(); else if (a === 'close') closePlayer();
+  else if (a === 'stop') { if (S.el >= 30) finish(); else closePlayer() }
+  else if (a === 'again') openPlayer(S.kind, S.id);
+});
+document.addEventListener('keydown', e => {
+  if ($('#player').classList.contains('hidden')) return;
+  if (e.key === 'Escape') closePlayer();
+  if (e.key === ' ') { e.preventDefault(); S?.started ? pause() : S && startSession() }
+});
+
+/* ================= RENDER ================= */
+function renderText() {
+  document.documentElement.lang = lang;
+  $$('[data-i18n]').forEach(el => el.textContent = t(el.dataset.i18n));
+  $$('[data-i18n-html]').forEach(el => el.innerHTML = t(el.dataset.i18nHtml));
+  const on = 'bg-white text-ink-950', off = 'text-zinc-400 hover:text-white';
+  $$('[data-lang]').forEach(b => b.className = `px-2 min-[360px]:px-2.5 py-1.5 rounded-md transition ${b.dataset.lang === lang ? on : off}`);
+}
+const tagRow = tags => `<span class="flex flex-wrap justify-end gap-1.5">${tags.map(tagHTML).join('')}</span>`;
+const srcLink = s => s ? `<a href="${s[1]}" target="_blank" rel="noopener" class="mt-auto pt-4 inline-flex items-start gap-1.5 text-xs text-zinc-500 hover:text-accent transition"><i data-lucide="book-open" class="w-3.5 h-3.5 shrink-0 mt-px"></i><span>${s[0]}</span></a>` : '';
+function renderHero() {
+  $('#hPractices').textContent = PRACTICES.length + BREATHS.length;
+  $('#quickList').innerHTML = [['practice', 'stop'], ['practice', 'space'], ['breath', 'sigh']].map(([k, id]) => {
+    const it = k === 'practice' ? PR[id] : BR[id], len = k === 'practice' ? it.min : brMin;
+    return `<button data-play="${k}:${id}" class="w-full flex items-center gap-4 rounded-2xl border border-white/10 bg-ink-950/60 p-4 text-left hover:border-accent/50 transition">
+      <span class="grid place-items-center w-10 h-10 shrink-0 rounded-xl bg-accent/10 text-accent"><i data-lucide="${it.icon}" class="w-5 h-5"></i></span>
+      <span class="flex-1 min-w-0 font-semibold text-white">${L(it.t)}</span><span class="shrink-0 font-mono text-sm text-zinc-500">${len} ${t('min')}</span><i data-lucide="play" class="w-4 h-4 shrink-0 text-accent"></i></button>`;
+  }).join('');
+}
+function renderPractices() {
+  $('#prGrid').innerHTML = PRACTICES.map(p => `<div class="${card}">
+    <div class="flex items-start justify-between gap-3"><span class="grid place-items-center w-10 h-10 shrink-0 rounded-xl bg-accent/10 text-accent"><i data-lucide="${p.icon}" class="w-5 h-5"></i></span>${tagRow(p.tags)}</div>
+    <p class="mt-4 font-mono text-xs text-accent">${t('cat_' + p.cat)} · ${p.min} ${t('min')}</p>
+    <h3 class="mt-1 font-semibold text-white">${L(p.t)}</h3>
+    <p class="mt-2 text-sm text-zinc-400 leading-relaxed">${L(p.d)}</p>
+    <div class="mt-auto pt-5"><button data-play="practice:${p.id}" class="${btn} w-full bg-accent/10 text-accent hover:bg-accent hover:text-ink-950"><i data-lucide="play" class="w-4 h-4"></i>${t('prStart')}</button></div></div>`).join('');
+}
+function renderBreath() {
+  $('#brMins').innerHTML = [1, 3, 5, 10].map(n => `<button data-brmin="${n}" class="${chip(n === brMin)}">${n} ${t('min')}</button>`).join('');
+  $('#brGrid').innerHTML = BREATHS.map(b => `<div class="${card}">
+    <div class="flex items-start justify-between gap-3"><span class="grid place-items-center w-10 h-10 shrink-0 rounded-xl bg-accent/10 text-accent"><i data-lucide="${b.icon}" class="w-5 h-5"></i></span>${tagRow(b.tags)}</div>
+    <p class="mt-4 font-mono text-xs text-accent">${b.phases.map(p => `${t({ in: 'brIn', top: 'brTop', hold: 'brHold', out: 'brOut' }[p[0]])} ${p[1]}`).join(' · ')}</p>
+    <h3 class="mt-1 font-semibold text-white">${L(b.t)}</h3>
+    <p class="mt-2 text-sm text-zinc-400 leading-relaxed">${L(b.d)}</p>
+    <div class="mt-auto pt-5"><button data-play="breath:${b.id}" class="${btn} w-full bg-accent/10 text-accent hover:bg-accent hover:text-ink-950"><i data-lucide="play" class="w-4 h-4"></i>${t('prStart')} · ${brMin} ${t('min')}</button></div></div>`).join('');
+}
+function renderTimer() {
+  $('#tmBox').innerHTML = `<p class="text-xs uppercase tracking-wider text-zinc-500">${t('tmLen')}</p>
+    <div class="mt-2 flex flex-wrap gap-2">${[5, 10, 15, 20, 30, 45].map(n => `<button data-tmmin="${n}" class="${chip(n === tmMin)}">${n} ${t('min')}</button>`).join('')}</div>
+    <p class="mt-6 text-xs uppercase tracking-wider text-zinc-500">${t('tmBell')}</p>
+    <div class="mt-2 flex flex-wrap gap-2">${[0, 5, 10].map(n => `<button data-tmiv="${n}" class="${chip(n === tmIv)}">${n ? fill(t('tmEvery'), { n }) : t('tmNone')}</button>`).join('')}</div>
+    <button data-play="timer:timer" class="mt-8 ${btn} bg-accent text-ink-950 hover:brightness-110"><i data-lucide="bell" class="w-4 h-4"></i>${t('tmStart')} · ${tmMin} ${t('min')}</button>`;
+}
+function renderScience() {
+  $('#scLegend').innerHTML = ['proof', 'data', 'debate'].map(tagHTML).join('');
+  $('#scGrid').innerHTML = SCIENCE.map(s => `<div class="${card}">
+    <div class="flex items-start justify-between gap-3"><h3 class="font-semibold text-white">${L(s.t)}</h3>${tagHTML(s.tag)}</div>
+    <p class="mt-3 text-sm text-zinc-400 leading-relaxed">${L(s.d)}</p>${srcLink(s.src)}</div>`).join('');
+}
+function renderTraditions() {
+  $('#trGrid').innerHTML = TRADITIONS.map(m => `<div class="${card}">
+    <div class="flex items-start justify-between gap-3"><span class="grid place-items-center w-10 h-10 shrink-0 rounded-xl bg-accent/10 text-accent"><i data-lucide="${m.icon}" class="w-5 h-5"></i></span>${tagRow(m.tags)}</div>
+    <p class="mt-4 font-mono text-xs text-accent">${L(m.era)}</p>
+    <h3 class="mt-1 font-semibold text-white">${L(m.t)}</h3>
+    <p class="mt-2 text-sm text-zinc-400 leading-relaxed">${L(m.d)}</p></div>`).join('');
+  $('#tipsList').innerHTML = TIPS.map(([ic, s]) => `<li class="flex items-start gap-3"><span class="grid place-items-center w-8 h-8 shrink-0 rounded-lg bg-white/5 text-accent"><i data-lucide="${ic}" class="w-4 h-4"></i></span><span class="pt-1 text-sm text-zinc-300 leading-relaxed">${L(s)}</span></li>`).join('');
+}
+function renderSafety() {
+  $('#sfGrid').innerHTML = SAFETY.map(s => `<div class="${card}">
+    <div class="flex items-start justify-between gap-3"><span class="grid place-items-center w-10 h-10 shrink-0 rounded-xl bg-white/5 text-zinc-300"><i data-lucide="${s.icon}" class="w-5 h-5"></i></span>${tagHTML(s.tag)}</div>
+    <h3 class="mt-4 font-semibold text-white">${L(s.t)}</h3>
+    <p class="mt-2 text-sm text-zinc-400 leading-relaxed">${L(s.d)}</p>${srcLink(s.src)}</div>`).join('');
+}
+function renderStats() {
+  const l = log(), mins = Math.round(l.reduce((a, x) => a + x.s, 0) / 60), { cur, best } = streaks();
+  $('#hMinutes').textContent = mins; $('#hStreak').textContent = cur;
+  if (!l.length) { $('#stBox').innerHTML = `<p class="rounded-2xl border border-white/10 bg-ink-900 p-8 text-center text-zinc-500">${t('stEmpty')}</p>`; return }
+  const days = Array.from({ length: 14 }, (_, i) => { const d = new Date(); d.setDate(d.getDate() - 13 + i); return d });
+  const per = days.map(d => l.filter(x => dayKey(x.d) === dayKey(d)).reduce((a, x) => a + x.s, 0) / 60), top = Math.max(...per, 1);
+  const tile = (v, k) => `<div class="rounded-2xl border border-white/10 bg-ink-900 p-5"><p class="text-3xl font-bold text-white">${v}</p><p class="mt-1 text-sm text-zinc-500">${t(k)}</p></div>`;
+  $('#stBox').innerHTML = `<div class="grid grid-cols-2 lg:grid-cols-4 gap-4">${tile(mins, 'stMinutes')}${tile(l.length, 'stSessions')}${tile(cur, 'stStreak')}${tile(best, 'stBest')}</div>
+    <div class="mt-4 grid lg:grid-cols-2 gap-4">
+      <div class="rounded-2xl border border-white/10 bg-ink-900 p-5"><p class="text-sm font-semibold text-white">${t('stDays')}</p>
+        <div class="mt-4 h-32 flex items-end gap-1.5">${per.map((v, i) => `<div class="flex-1 flex flex-col items-center justify-end h-full gap-1" title="${days[i].toLocaleDateString(lang)} · ${Math.round(v)} ${t('min')}"><div class="w-full rounded-t ${v ? 'bg-accent' : 'bg-white/5'}" style="height:${v ? Math.max(6, v / top * 100) : 4}%"></div><span class="text-[10px] text-zinc-600">${days[i].getDate()}</span></div>`).join('')}</div></div>
+      <div class="rounded-2xl border border-white/10 bg-ink-900 p-5"><p class="text-sm font-semibold text-white">${t('stLast')}</p>
+        <ul class="mt-3 space-y-2 text-sm">${l.slice(-6).reverse().map(x => `<li class="flex justify-between gap-3"><span class="text-zinc-300 truncate">${nameOf(x.k)}</span><span class="shrink-0 text-zinc-500">${new Date(x.d).toLocaleDateString(lang, { day: 'numeric', month: 'short' })} · ${mm(x.s)}</span></li>`).join('')}</ul></div>
+    </div>`;
+}
+function renderMore() {
+  $('#moreGrid').innerHTML = SITES.map(x => `
+    <a href="${x.url}" target="_blank" rel="noopener" class="group flex items-center gap-3 sm:gap-5 rounded-3xl border border-white/10 bg-ink-900 p-4 sm:p-6 hover:border-accent/50 hover:-translate-y-1 transition duration-300">
+      <span class="grid place-items-center w-12 h-12 sm:w-16 sm:h-16 shrink-0 rounded-2xl bg-accent/10 text-2xl sm:text-3xl font-semibold text-accent" style="font-family:'Noto Sans Thai','Noto Sans Cuneiform',Inter,sans-serif">${x.icon ? `<i data-lucide="${x.icon}" class="w-7 h-7 sm:w-8 sm:h-8"></i>` : x.glyph}</span>
+      <span class="flex-1 min-w-0">
+        <span class="flex items-center gap-1.5 text-sm font-bold text-white"><i data-lucide="zap" class="w-3.5 h-3.5 text-accent"></i><span>${x.name[0]}<span class="text-accent">${x.name[1]}</span></span></span>
+        <span class="block mt-1 text-lg font-semibold text-white">${L(x.t)}</span>
+        <span class="block mt-1 text-sm text-zinc-400 leading-relaxed">${L(x.d)}</span>
+      </span>
+      <i data-lucide="arrow-up-right" class="w-5 h-5 shrink-0 text-zinc-500 group-hover:text-accent transition"></i>
+    </a>`).join('');
+}
+// parts that change after a session
+function renderSide() { renderStats(); icons() }
+function navFill() {
+  $('#navMenu > div').innerHTML = $$('header nav > div.lg\\:flex a').map(a => `<a href="${a.getAttribute('href')}" class="rounded-lg px-3 py-2.5 text-zinc-300 hover:bg-white/5 hover:text-white transition">${a.textContent}</a>`).join('');
+}
+function navToggle(open = $('#navMenu').classList.contains('hidden')) {
+  $('#navMenu').classList.toggle('hidden', !open);
+  $('#navBtn').setAttribute('aria-expanded', open);
+  $$('#navBtn .nav-closed').forEach(i => i.classList.toggle('hidden', open));
+  $$('#navBtn .nav-opened').forEach(i => i.classList.toggle('hidden', !open));
+}
+$('#navBtn').onclick = e => { e.stopPropagation(); navToggle() };
+$('#navMenu').addEventListener('click', e => e.target.closest('a') && navToggle(false));
+document.addEventListener('click', e => {
+  if (!e.target.closest('header')) navToggle(false);
+  const p = e.target.closest('[data-play]');
+  if (p) { const [k, id] = p.dataset.play.split(':'); openPlayer(k, id) }
+  const bm = e.target.closest('[data-brmin]'), tm = e.target.closest('[data-tmmin]'), ti = e.target.closest('[data-tmiv]');
+  if (bm) { brMin = +bm.dataset.brmin; store.set('md-brmin', brMin); renderBreath(); renderHero(); icons() }
+  if (tm) { tmMin = +tm.dataset.tmmin; store.set('md-tmmin', tmMin); renderTimer(); icons() }
+  if (ti) { tmIv = +ti.dataset.tmiv; store.set('md-tmiv', tmIv); renderTimer(); icons() }
+});
+$('#statsReset').onclick = () => { if (confirm(t('stConfirm'))) { store.del(LOG_KEY); renderSide() } };
+
+function renderAll() {
+  renderText(); renderHero(); renderPractices(); renderBreath(); renderTimer(); renderScience(); renderTraditions(); renderSafety(); renderStats(); renderMore(); navFill();
+  if (S) renderPlayer();
+  icons();
+}
+$$('[data-lang]').forEach(b => b.onclick = () => { lang = b.dataset.lang; store.set('md-lang', lang); renderAll() });
+
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target) } }), { threshold: .08 });
+$$('.reveal').forEach(el => io.observe(el));
+renderAll();
+
+/* ================= OFFLINE ================= */
+// sw.js keeps the whole site (page, audio, libraries, fonts) for use without internet and, when online,
+// downloads only what changed (offline.json, written by ThaiFast/tools/offline.py)
+if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+  const OFF = {
+    ru: ['Сохраняем сайт для работы без интернета: {p}%', 'Сайт сохранён — работает и без интернета', 'Нет сети — открыта сохранённая версия'],
+    en: ['Saving the site for offline use: {p}%', 'Saved — the site works without internet too', 'Offline — showing the saved version'],
+    th: ['กำลังบันทึกเว็บไว้ใช้แบบออฟไลน์: {p}%', 'บันทึกแล้ว ใช้งานได้แม้ไม่มีอินเทอร์เน็ต', 'ไม่มีอินเทอร์เน็ต กำลังแสดงเวอร์ชันที่บันทึกไว้'],
+  };
+  const offSay = (i, p) => { const el = document.getElementById('offlineState'); if (el) el.textContent = (OFF[document.documentElement.lang] || OFF.en)[i].replace('{p}', p) };
+  navigator.serviceWorker.addEventListener('message', e => {
+    const d = e.data; if (!d || d.type !== 'offline') return;
+    if (d.offline) offSay(2); else if (d.done < d.total) offSay(0, Math.floor(d.done / d.total * 100)); else offSay(1);
+  });
+  addEventListener('offline', () => offSay(2));
+  addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').then(() => navigator.serviceWorker.ready)
+      .then(r => r.active && r.active.postMessage({ type: 'sync', full: !(navigator.connection && navigator.connection.saveData) }))
+      .catch(() => {});
+  });
+}
+</script>
+</body>
+</html>
